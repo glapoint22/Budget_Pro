@@ -1,0 +1,10 @@
+[
+  {
+    "outputFile": "Scripts/Envelopes.js",
+    "inputFile": "Scripts/Envelopes.js"
+  },
+  {
+    "outputFile": "BudgetPro.css",
+    "inputFile": "BudgetPro.scss"
+  }
+]
