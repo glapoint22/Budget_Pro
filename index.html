@@ -5,20 +5,22 @@
 	<meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="Scripts/Envelopes.min.js"></script>
+    <link href="BudgetPro.min.css" rel="stylesheet" />
 </head>
 <body>
-    <table style="border-collapse: collapse; border: solid">
+    <table>
         <tr>
-            <td ng-controller="envelopeController as ctrl" style="border: solid; position: relative" width="200px" height="900px">
-                <div style="position:absolute; top:0px">
+            <td ng-controller="envelopeController as ctrl" class="envelopes-container">
+                <div class="envelope-list">
                     <div ng-repeat="envelope in ctrl.envelopes">
                         {{envelope.name}}
                     </div>
                 </div>
             </td>
-            <td width="1500px" style="border: solid">
+            <td class="content-container">
+
             </td>
-            <td width="200px">
+            <td class="buttons-container">
 
             </td>
         </tr>
