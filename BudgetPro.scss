@@ -1,12 +1,13 @@
 body {
     margin: 0px;
+    background-color: #292929;
     table{
         position: relative; 
         top: 13px; 
         border-collapse:collapse;
         td{
             padding: 0px;
-            background-color: blue;
+            /*background-color: blue;*/
             &.envelopes-container{
                 position: relative; 
                 width: 139px;
@@ -14,6 +15,8 @@ body {
                 .envelope-list{
                     position: absolute;
                     top: 0px;
+                    color: white;
+                    padding-left: 10px;
                 }
             }
             &.content-container{
