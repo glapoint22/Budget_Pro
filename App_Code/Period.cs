@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 public class Period
 {
@@ -11,47 +10,29 @@ public class Period
     public Month month2 { get; set; }
     public DateTime periodStart { get; set; }
 
-    public List<DateTime> GetDates(DateTime startDate, DateTime endDate)
+    public bool IsPeriodDate(DateTime currentDate)
     {
-        List<DateTime> dates = new List<DateTime>();
-        double numDays = (endDate - startDate).TotalDays;
-
         switch (frequency)
         {
             case Frequency.Daily:
-                for(int i = 0; i < numDays; i++)
-                {
-                    dates.Add(startDate.AddDays(i).Date);
-                }
-                break;
+                return true;
             case Frequency.Weekly:
-                for (int i = 0; i < numDays; i++)
+                if (currentDate.DayOfWeek == dayOfWeek)
                 {
-                    DateTime currentDate = startDate.AddDays(i).Date;
-                    if(currentDate.DayOfWeek == dayOfWeek)
-                    {
-                        dates.Add(currentDate.Date);
-                    }
+                    return true;
                 }
                 break;
             case Frequency.BiWeekly:
-                for (int i = 0; i < numDays; i++)
+                if (currentDate.DayOfWeek == dayOfWeek)
                 {
-                    DateTime currentDate = startDate.AddDays(i).Date;
-                    if (currentDate.DayOfWeek == dayOfWeek)
-                    {
-                        double weeks = (currentDate - periodStart).TotalDays / 7;
-                        if((weeks % 2) == 0)
-                        {
-                            dates.Add(currentDate.Date);
-                        }
-                        
-                    }
+                    double weeks = (currentDate - periodStart).TotalDays / 7;
+                    if((weeks % 2) == 0) return true;
                 }
                 break;
             case Frequency.SemiMonthly:
                 break;
             case Frequency.Monthly:
+                if (currentDate.Day == dayOfMonth1) return true;
                 break;
             case Frequency.Quarterly:
                 break;
@@ -61,6 +42,6 @@ public class Period
                 break;
         }
 
-        return dates;
+        return false;
     }
 }

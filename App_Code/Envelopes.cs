@@ -17,7 +17,7 @@ public class Envelopes : WebService
     [WebMethod]
     public void GetEnvelopes()
     {
-        List<Envelopez> envelopes = new List<Envelopez>();
+        List<Envelope> envelopes = new List<Envelope>();
         string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
         using (SqlConnection con = new SqlConnection(cs))
         {
@@ -27,33 +27,50 @@ public class Envelopes : WebService
 
             while (rdr.Read())
             {
-                Envelopez envelope = new Envelopez();
+                Envelope envelope = new Envelope();
                 envelope.id = Convert.ToInt32(rdr["ID"]);
                 envelope.name = rdr["Name"].ToString();
+                envelope.deductPeriod.frequency = Frequency.Monthly;
+                envelope.deductPeriod.dayOfMonth1 = Convert.ToInt32(rdr["Day"]);
+                envelope.total = (float)rdr.GetDouble(3);
+                envelope.balance = (float)rdr.GetDouble(2);
                 envelopes.Add(envelope);
             }
             con.Close();
         }
-        JavaScriptSerializer js = new JavaScriptSerializer();
-        Context.Response.Write(js.Serialize(envelopes));
+        
 
         Employer employer = new Employer();
         employer.name = "Gumpy's Ice Cream";
         employer.type = EmployerType.FixedIncome;
         employer.netPay = 250;
-        employer.payPeriod = new Period();
         employer.payPeriod.frequency = Frequency.BiWeekly;
         employer.payPeriod.dayOfWeek = DayOfWeek.Friday;
         employer.payPeriod.periodStart = new DateTime(2017, 1, 13);
 
-        //double weeks = (DateTime.Now.Date - employer.payPeriod.periodStart).TotalDays / 7;
+        DateTime lastChecked = new DateTime(2017, 2, 2);
+        DateTime startDate = lastChecked.AddDays(1);
+        double numDays = (DateTime.Now.Date - startDate).TotalDays;
+        
+        //Loop through the days to deposit or deduct from envelopes
+        //These days have not been checked by the program yet
+        for(int i = 0; i < numDays; i++)
+        {
+            DateTime currentDate = startDate.AddDays(i).Date;
 
-        List<DateTime> dates = employer.payPeriod.GetDates(new DateTime(2017, 2, 8), new DateTime(2017, 3, 12));
+            //Check to see if this is a payday from this employer
+            if (employer.payPeriod.IsPeriodDate(currentDate))
+            {
+                //Distribute the pay into each envelope
+                employer.DepositIntoEnvelopes(currentDate, envelopes);
+            }
+        }
+
+        
+
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Context.Response.Write(js.Serialize(envelopes));
+
+
     }
-}
-public struct Envelopez
-{
-    public int id { get; set; }
-    public string name { get; set; }
-
 }
