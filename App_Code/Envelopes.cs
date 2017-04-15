@@ -30,8 +30,8 @@ public class Envelopes : WebService
                 Envelope envelope = new Envelope();
                 envelope.id = Convert.ToInt32(rdr["ID"]);
                 envelope.name = rdr["Name"].ToString();
-                envelope.deductPeriod.frequency = Frequency.Monthly;
-                envelope.deductPeriod.dayOfMonth1 = Convert.ToInt32(rdr["Day"]);
+                envelope.withdrawPeriod.frequency = Frequency.Monthly;
+                envelope.withdrawPeriod.dayOfMonth1 = Convert.ToInt32(rdr["Day"]);
                 envelope.total = (float)rdr.GetDouble(3);
                 envelope.balance = (float)rdr.GetDouble(2);
                 envelopes.Add(envelope);
@@ -43,7 +43,7 @@ public class Envelopes : WebService
         Employer employer = new Employer();
         employer.name = "Gumpy's Ice Cream";
         employer.type = EmployerType.FixedIncome;
-        employer.netPay = 250;
+        employer.netPay = 1400;
         employer.payPeriod.frequency = Frequency.BiWeekly;
         employer.payPeriod.dayOfWeek = DayOfWeek.Friday;
         employer.payPeriod.periodStart = new DateTime(2017, 1, 13);
@@ -62,7 +62,27 @@ public class Envelopes : WebService
             if (employer.payPeriod.IsPeriodDate(currentDate))
             {
                 //Distribute the pay into each envelope
-                employer.DepositIntoEnvelopes(currentDate, envelopes);
+                //Deposit into each envelope
+
+                float payAmount = employer.netPay;
+                foreach (Envelope envelope in envelopes)
+                {
+                    DateTime withdrawDate = envelope.withdrawPeriod.GetNextPeriodDate(currentDate);
+
+                    //Get the number of paydays before this envelope gets withdrawn
+                    int numPaydays = employer.payPeriod.GetNumPeriodDates(currentDate, withdrawDate);
+
+                    //Calculate how much we are depositing into this envelope
+                    float remaining = envelope.total - envelope.balance;
+                    float depositAmount = remaining / numPaydays;
+
+                    payAmount -= depositAmount;
+
+                    //Deposit into the current envelope
+                    envelope.balance += depositAmount;
+                    envelope.transactions.Add(new Transaction(currentDate, depositAmount, 0, 0, "", envelope.balance));
+                    
+                }
             }
         }
 

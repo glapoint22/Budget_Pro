@@ -10,19 +10,19 @@ public class Envelope
     [ScriptIgnore]
     public EnvelopeType envelopeType { get; set; }
     private List<Transaction> _transactions = new List<Transaction>();
-    private Period _deductPeriod = new Period();
+    private Period _withdrawPeriod = new Period();
 
     [ScriptIgnore]
-    public Period deductPeriod
+    public Period withdrawPeriod
     {
         get
         {
-            return _deductPeriod;
+            return _withdrawPeriod;
         }
 
         set
         {
-            _deductPeriod = value;
+            _withdrawPeriod = value;
         }
     }
 

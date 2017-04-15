@@ -44,4 +44,28 @@ public class Period
 
         return false;
     }
+
+    public DateTime GetNextPeriodDate(DateTime startDate)
+    {
+        int day = 0;
+
+        while (true)
+        {
+            DateTime currentDate = startDate.AddDays(day).Date;
+            if (IsPeriodDate(currentDate)) return currentDate;
+            
+            day++;
+        }
+    }
+
+    public int GetNumPeriodDates(DateTime startDate, DateTime endDate)
+    {
+        int numDates = 0;
+        for (int i = 0; i < (endDate - startDate).TotalDays + 1; i++)
+        {
+            if (IsPeriodDate(startDate.AddDays(i).Date)) numDates++;
+        }
+
+        return numDates;
+    }
 }
