@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account</title>
+	<meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="Scripts/Account.js"></script>
+</head>
+<body ng-app="account">
+    <div ng-controller="AccountController as accountCtrl">
+        <form>
+            <input type="button" ng-click="accountCtrl.addEmployer()" value="Add Employer" />
+            <div ng-repeat="employer in accountCtrl.employers">
+                <fieldset>
+                    <legend>Employer {{$index + 1}}:</legend>
+                    Name: <input type="text" ng-model="employer.name">
+                    Input Type:
+                    <input type="radio" ng-model="employer.incomeType" ng-value="0">Fixed Income
+                    <input type="radio" ng-model="employer.incomeType" ng-value="1">Variable Income
+                    Net Pay: <input type="text" ng-model="employer.netPay">
+                    Pay Period Frequency:
+                    <select ng-model="employer.payPeriod.frequency" >
+                        <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                    </select>
+
+                    <span ng-show="employer.payPeriod.frequency === 1">This employer pays me every week on:</span>
+                    <span ng-show="employer.payPeriod.frequency === 2">This employer pays me every other week on:</span>
+                    <select ng-model="employer.payPeriod.dayOfWeek" ng-show="employer.payPeriod.frequency === 1 || employer.payPeriod.frequency === 2">
+                        <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                    
+                    <span ng-show="employer.payPeriod.frequency === 3">This employer pays me every month on the:</span>
+                    <select ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 3">
+                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                    <span ng-show="employer.payPeriod.frequency === 3">&</span>
+                    <select ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 3">
+                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+                    
+                    
+                    
+                   
+                    
+                    
+                </fieldset>
+            </div>
+                
+            
+            
+        </form>
+        
+    </div>
+    
+</body>
+</html>

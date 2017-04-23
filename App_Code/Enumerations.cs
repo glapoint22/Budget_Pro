@@ -32,7 +32,7 @@ public enum EnvelopeType
     Static
 }
 
-public enum EmployerType
+public enum IncomeType
 {
     FixedIncome,
     VariableIncome
