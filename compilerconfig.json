@@ -8,11 +8,7 @@
     "inputFile": "BudgetPro.scss"
   },
   {
-    "outputFile": "Scripts/Account.js",
-    "inputFile": "Scripts/Account.js"
-  },
-  {
-    "outputFile": "Scripts/Account.es5.es5.js",
-    "inputFile": "Scripts/Account.es5.js"
+    "outputFile": "Account.css",
+    "inputFile": "Account.scss"
   }
 ]

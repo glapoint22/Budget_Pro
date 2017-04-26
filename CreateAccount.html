@@ -5,53 +5,140 @@
 	<meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="Scripts/Account.js"></script>
+    <link href="Account.css" rel="stylesheet" />
 </head>
 <body ng-app="account">
     <div ng-controller="AccountController as accountCtrl">
         <form>
-            <input type="button" ng-click="accountCtrl.addEmployer()" value="Add Employer" />
-            <div ng-repeat="employer in accountCtrl.employers">
-                <fieldset>
-                    <legend>Employer {{$index + 1}}:</legend>
-                    Name: <input type="text" ng-model="employer.name">
-                    Input Type:
-                    <input type="radio" ng-model="employer.incomeType" ng-value="0">Fixed Income
-                    <input type="radio" ng-model="employer.incomeType" ng-value="1">Variable Income
-                    Net Pay: <input type="text" ng-model="employer.netPay">
-                    Pay Period Frequency:
-                    <select ng-model="employer.payPeriod.frequency" >
-                        <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
-                    </select>
+            <h2>Create an account</h2>
+            <hr style="border:1px solid #808080; width:75%" />
+            <!--First Name-->
+            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name">
 
-                    <span ng-show="employer.payPeriod.frequency === 1">This employer pays me every week on:</span>
-                    <span ng-show="employer.payPeriod.frequency === 2">This employer pays me every other week on:</span>
-                    <select ng-model="employer.payPeriod.dayOfWeek" ng-show="employer.payPeriod.frequency === 1 || employer.payPeriod.frequency === 2">
-                        <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
-                    </select>
+            <!--Last Name-->
+            <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name">
+
+            <!--Email-->
+            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.email" placeholder="Email">
+
+            <!--Confirm Email-->
+            <input class="control width-50 float-right" type="text" placeholder="Confirm Email">
+            
+            <!--Password-->
+            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.pword" placeholder="Password">
+
+            <!--Confirm Password-->
+            <input class="control width-50 float-right" type="text" placeholder="Confirm Password">
+
+
+            
+            <div style="height: 410px; background-color: #14161d; border:1px solid #5a5a5a; overflow: auto; margin-top: 140px">
+
+
+
+
+
+                <div ng-repeat="employer in accountCtrl.employers">
                     
-                    <span ng-show="employer.payPeriod.frequency === 3">This employer pays me every month on the:</span>
-                    <select ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 3">
-                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                    </select>
-                    <span ng-show="employer.payPeriod.frequency === 3">&</span>
-                    <select ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 3">
-                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                    </select>
+                    <!--Employers-->
+                    <fieldset style="background-color: #1d212a; margin: 5px 10px 5px 10px; border: 1px dashed white">
+                        <legend>Employer {{$index + 1}}:</legend>
+
+                        
+
+
+                        <!--Income Type-->
+                        <div align="center">
+                            <span class="remove">Remove</span>
+                            Income Type:
+                            <input type="radio" ng-model="employer.incomeType" ng-value="0">Fixed Income
+                            <input type="radio" ng-model="employer.incomeType" ng-value="1">Variable Income
+                        </div>
+
+
+                        <!--Employer Name-->
+                        <input class="control width-50 float-left" ng-model="employer.name" placeholder="Employer Name">
+                        
+                        
+                        <div ng-show="employer.incomeType === 0">
+                            <!--Net Pay-->
+                            <input class="control width-50 float-right" type="text" ng-model="employer.netPay" placeholder="Net Pay">
+
+                            <!--Pay Period Frequency-->
+                            <div align="center">
+                                Pay Period Frequency:
+                                <select class="control" ng-model="employer.payPeriod.frequency">
+                                    <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                                </select>
+                            </div>
+
+                            
+
+                            <div align="center">
+                                <!--Weekly & Bi-Weekly-->
+                                <span ng-show="employer.payPeriod.frequency === 1">This employer pays me every week on:</span>
+                                <span ng-show="employer.payPeriod.frequency === 2">This employer pays me every other week on:</span>
+                                <select class="control" ng-model="employer.payPeriod.dayOfWeek" ng-show="employer.payPeriod.frequency === 1 || employer.payPeriod.frequency === 2">
+                                    <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                                </select>
+
+
+
+
+                                <!--Semi-Monthly & Monthly-->
+                                <span ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">This employer pays me every month on the:</span>
+                                <select  class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">
+                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                </select>
+                                <span ng-show="employer.payPeriod.frequency === 3">&</span>
+                                <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 3">
+                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                </select>
+
+
+                                <!--Semi-Annually & Annually-->
+                                <span ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">This employer pays me every year on:</span>
+
+                                <select class="control" ng-model="employer.payPeriod.month1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
+                                    <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                </select>
+
+                                <select class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
+                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                </select>
+
+                                <span ng-show="employer.payPeriod.frequency === 6">&</span>
+
+                                <select class="control" ng-model="employer.payPeriod.month2" ng-show="employer.payPeriod.frequency === 6">
+                                    <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                </select>
+
+                                <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 6">
+                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                </select>
+                            </div>
+
+
+                            <!--Period Start-->
+                            <div align="center">
+                                <span style="font-style:italic; font-size:11px" ng-show="employer.payPeriod.frequency === 2">Enter a date when you've received payment from this employer or a date when you expect to be paid:</span>
+                                <div align="center">
+                                    <input class="control" ng-show="employer.payPeriod.frequency === 2" type="date" ng-model="employer.payPeriod.periodStart">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </fieldset>
 
                     
-                    
-                    
-                   
-                    
-                    
-                </fieldset>
+                </div>
+                <!--Add Employer-->
+                <div class="add-employer" ng-click="accountCtrl.addEmployer()"> <span class="add-employer-text">Click to add an employer</span></div>
             </div>
-                
-            
-            
+            <button style="display: block; width:100%; height:30px; margin-top:10px">Create Accoount</button>
         </form>
-        
     </div>
+
     
 </body>
 </html>

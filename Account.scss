@@ -1,0 +1,102 @@
+body{
+    background-color: #3c3c3c;
+}
+
+form {
+    background: #1d212a;
+    margin: auto;
+    position: relative;
+    top: 50px;
+    width: 680px;
+    height: 650px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #999;
+    border: inset 1px solid #333;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    color: #b7b7b7;
+ 
+    .control{
+        background-color: #151515;
+        color: #e6e6e6;
+        border: 1px solid #828282;
+        font-size: 14px;
+        text-indent: 5px;
+        height: 28px;
+        margin: 5px 0px 5px 0px;
+    }
+    .width-50{
+        width: 49.2%;
+    }
+    .float-left{
+        float: left;
+    }
+
+    .float-right{
+        float: right;
+    }
+
+    .add-employer{
+        text-align:center; 
+        text-decoration: underline; 
+        font-style: italic; 
+        margin-top:20px;
+        margin-bottom: 20px;
+        color: #939393;
+    }
+
+    .add-employer-text:hover{
+        cursor: pointer;
+        color: white;
+        text-decoration: underline;
+    }
+
+    h2{
+        text-align: center;
+        margin-bottom: 0px
+    }
+
+    select{
+        text-indent: 0px !important;
+    }
+
+    button{
+        background-color: #32475b;
+        border: none;
+        color: #bababa;
+        font-size: 14px;
+    }
+
+    button:hover{
+        background-color: #506f8d;
+        cursor: pointer;
+        color:#ffffff;
+    }
+
+    .remove{
+        position:relative; 
+        top:-15px; 
+        left: 460px;
+        font-size:14px;
+        font-style: italic;
+        text-decoration: underline;
+        color: #bbbbbb;
+    }
+
+    .remove:hover{
+        color:#ffffff;
+        cursor: pointer;
+    }
+}
+
+
+
+
+
+
