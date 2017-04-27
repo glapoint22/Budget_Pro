@@ -11,131 +11,245 @@
     <div ng-controller="AccountController as accountCtrl">
         <form>
             <h2>Create an account</h2>
-            <hr style="border:1px solid #808080; width:75%" />
-            <!--First Name-->
-            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name">
+            <hr/>
 
-            <!--Last Name-->
-            <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name">
+            <div ng-show="accountCtrl.screenIndex === 0">
+                <!--User Info-->
+                <div class="numbered-circle">1</div>
+                <div class="section-text">User Info</div>
+                <div>
+                    <!--First Name-->
+                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name">
 
-            <!--Email-->
-            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.email" placeholder="Email">
+                    <!--Last Name-->
+                    <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name">
 
-            <!--Confirm Email-->
-            <input class="control width-50 float-right" type="text" placeholder="Confirm Email">
-            
-            <!--Password-->
-            <input class="control width-50 float-left" type="text" ng-model="accountCtrl.pword" placeholder="Password">
+                    <!--Email-->
+                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.email" placeholder="Email">
 
-            <!--Confirm Password-->
-            <input class="control width-50 float-right" type="text" placeholder="Confirm Password">
+                    <!--Confirm Email-->
+                    <input class="control width-50 float-right" type="text" placeholder="Confirm Email">
 
+                    <!--Password-->
+                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.pword" placeholder="Password">
 
-            
-            <div style="height: 410px; background-color: #14161d; border:1px solid #5a5a5a; overflow: auto; margin-top: 140px">
+                    <!--Confirm Password-->
+                    <input class="control width-50 float-right" type="text" placeholder="Confirm Password">
 
-
-
-
-
-                <div ng-repeat="employer in accountCtrl.employers">
-                    
-                    <!--Employers-->
-                    <fieldset style="background-color: #1d212a; margin: 5px 10px 5px 10px; border: 1px dashed white">
-                        <legend>Employer {{$index + 1}}:</legend>
-
-                        
-
-
-                        <!--Income Type-->
-                        <div align="center">
-                            <span class="remove">Remove</span>
-                            Income Type:
-                            <input type="radio" ng-model="employer.incomeType" ng-value="0">Fixed Income
-                            <input type="radio" ng-model="employer.incomeType" ng-value="1">Variable Income
-                        </div>
-
-
-                        <!--Employer Name-->
-                        <input class="control width-50 float-left" ng-model="employer.name" placeholder="Employer Name">
-                        
-                        
-                        <div ng-show="employer.incomeType === 0">
-                            <!--Net Pay-->
-                            <input class="control width-50 float-right" type="text" ng-model="employer.netPay" placeholder="Net Pay">
-
-                            <!--Pay Period Frequency-->
-                            <div align="center">
-                                Pay Period Frequency:
-                                <select class="control" ng-model="employer.payPeriod.frequency">
-                                    <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
-                                </select>
-                            </div>
-
-                            
-
-                            <div align="center">
-                                <!--Weekly & Bi-Weekly-->
-                                <span ng-show="employer.payPeriod.frequency === 1">This employer pays me every week on:</span>
-                                <span ng-show="employer.payPeriod.frequency === 2">This employer pays me every other week on:</span>
-                                <select class="control" ng-model="employer.payPeriod.dayOfWeek" ng-show="employer.payPeriod.frequency === 1 || employer.payPeriod.frequency === 2">
-                                    <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
-                                </select>
-
-
-
-
-                                <!--Semi-Monthly & Monthly-->
-                                <span ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">This employer pays me every month on the:</span>
-                                <select  class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">
-                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                </select>
-                                <span ng-show="employer.payPeriod.frequency === 3">&</span>
-                                <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 3">
-                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                </select>
-
-
-                                <!--Semi-Annually & Annually-->
-                                <span ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">This employer pays me every year on:</span>
-
-                                <select class="control" ng-model="employer.payPeriod.month1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
-                                    <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
-                                </select>
-
-                                <select class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
-                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                </select>
-
-                                <span ng-show="employer.payPeriod.frequency === 6">&</span>
-
-                                <select class="control" ng-model="employer.payPeriod.month2" ng-show="employer.payPeriod.frequency === 6">
-                                    <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
-                                </select>
-
-                                <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 6">
-                                    <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                </select>
-                            </div>
-
-
-                            <!--Period Start-->
-                            <div align="center">
-                                <span style="font-style:italic; font-size:11px" ng-show="employer.payPeriod.frequency === 2">Enter a date when you've received payment from this employer or a date when you expect to be paid:</span>
-                                <div align="center">
-                                    <input class="control" ng-show="employer.payPeriod.frequency === 2" type="date" ng-model="employer.payPeriod.periodStart">
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    
+                    <div style="clear:both" class="numbered-circle">2</div>
+                    <div class="section-text">Employers</div>
                 </div>
-                <!--Add Employer-->
-                <div class="add-employer" ng-click="accountCtrl.addEmployer()"> <span class="add-employer-text">Click to add an employer</span></div>
+
+                <!--Employer Container-->
+                <div class="content-container" style="height: 500px">
+                    <div ng-repeat="employer in accountCtrl.employers">
+
+                        <!--Employers-->
+                        <fieldset>
+                            <legend>Employer {{$index + 1}}:</legend>
+
+                            <!--Remove Employer-->
+                            <div class="remove-text">Remove</div>
+
+
+                            <!--Income Type-->
+                            <div class="radio-group">
+                                Income Type:
+                                <input type="radio" ng-model="employer.incomeType" ng-value="0">Fixed Income
+                                <input type="radio" ng-model="employer.incomeType" ng-value="1">Variable Income
+                            </div>
+
+                            <!--Employer Name & Net Pay-->
+                            <div class="flex-container">
+                                <input class="control flex-control" ng-model="employer.name" placeholder="Employer Name">
+                                <input ng-hide="employer.incomeType === 1" class="control flex-control" type="text" ng-model="employer.netPay" placeholder="Net Pay">
+                            </div>
+
+
+                            <!--Show if income type is fixed income-->
+                            <div ng-show="employer.incomeType === 0">
+                                <!--Pay Period Frequency-->
+                                <div align="center">
+                                    Pay Period Frequency:
+                                    <select class="control" ng-model="employer.payPeriod.frequency">
+                                        <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                                    </select>
+                                </div>
+
+
+
+                                <div align="center">
+                                    <!--Weekly & Bi-Weekly-->
+                                    <span ng-show="employer.payPeriod.frequency === 1">This employer pays me every week on:</span>
+                                    <span ng-show="employer.payPeriod.frequency === 2">This employer pays me every other week on:</span>
+                                    <select class="control" ng-model="employer.payPeriod.dayOfWeek" ng-show="employer.payPeriod.frequency === 1 || employer.payPeriod.frequency === 2">
+                                        <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+
+
+
+                                    <!--Semi-Monthly & Monthly-->
+                                    <span ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">This employer pays me every month on the:</span>
+                                    <select class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 3 || employer.payPeriod.frequency === 4">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+                                    <span ng-show="employer.payPeriod.frequency === 3">&</span>
+                                    <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 3">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+
+                                    <!--Semi-Annually & Annually-->
+                                    <span ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">This employer pays me every year on:</span>
+
+                                    <select class="control" ng-model="employer.payPeriod.month1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
+                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                    </select>
+
+                                    <select class="control" ng-model="employer.payPeriod.dayOfMonth1" ng-show="employer.payPeriod.frequency === 6 || employer.payPeriod.frequency === 7">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+                                    <span ng-show="employer.payPeriod.frequency === 6">&</span>
+
+                                    <select class="control" ng-model="employer.payPeriod.month2" ng-show="employer.payPeriod.frequency === 6">
+                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                    </select>
+
+                                    <select class="control" ng-model="employer.payPeriod.dayOfMonth2" ng-show="employer.payPeriod.frequency === 6">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!--Period Start-->
+                                <div align="center">
+                                    <span style="font-style:italic; font-size: 12px" ng-show="employer.payPeriod.frequency === 2">Enter a date when you've received payment from this employer or a date when you expect to be paid:</span>
+                                    <div align="center">
+                                        <input class="control" ng-show="employer.payPeriod.frequency === 2" type="date" ng-model="employer.payPeriod.periodStart">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+                    </div>
+                    <!--Add Employer-->
+                    <div class="add-employer" ng-click="accountCtrl.addEmployer()"> <span class="add-employer-text">Click to add an employer</span></div>
+                </div>
+                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1)">Next</button>
             </div>
-            <button style="display: block; width:100%; height:30px; margin-top:10px">Create Accoount</button>
+
+            <div ng-show="accountCtrl.screenIndex === 1">
+                <div class="numbered-circle">3</div>
+                <div class="section-text">Envelopes</div>
+
+
+                <!--Envelope Container-->
+                <div class="content-container" style="height: 671px">
+                    <div ng-repeat="envelope in accountCtrl.envelopes">
+
+                        <!--envelopes-->
+                        <fieldset>
+                            <legend>Envelope {{$index + 1}}:</legend>
+
+
+                            <!--Remove Envelope-->
+                            <div class="remove-text">Remove</div>
+
+
+                            <!--Envelope Type-->
+                            <div class="radio-group">
+                                Envelope Type:
+                                <input type="radio" ng-model="envelope.envelopeType" ng-value="0">Dynamic
+                                <input type="radio" ng-model="envelope.envelopeType" ng-value="1">Static
+                            </div>
+                           
+
+
+                            <!--Envelope Name & Envelope Amount-->
+                            <div class="flex-container">
+                                <input class="control flex-control" ng-model="envelope.name" placeholder="Envelope Name">
+                                <input ng-hide="envelope.envelopeType === 1" class="control flex-control" type="text" ng-model="envelope.amount" placeholder="Envelope Amount">
+                            </div>
+
+
+                            <!--Show if envelope type is dynamic-->
+                            <div ng-show="envelope.envelopeType === 0">
+                                <!--Withdraw-->
+                                <div align="center">
+                                    Withdraw Period:
+                                    <select class="control" ng-model="envelope.withdraw.frequency">
+                                        <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!--Weekly & Bi-Weekly-->
+                                <div align="center">
+                                    <span ng-show="envelope.withdraw.frequency === 1">Widthdraw every week on:</span>
+                                    <span ng-show="envelope.withdraw.frequency === 2">Widthdraw every other week on:</span>
+                                    <select class="control" ng-model="envelope.withdraw.dayOfWeek" ng-show="envelope.withdraw.frequency === 1 || envelope.withdraw.frequency === 2">
+                                        <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+
+
+
+                                    <!--Semi-Monthly & Monthly-->
+                                    <span ng-show="envelope.withdraw.frequency === 3 || envelope.withdraw.frequency === 4">Widthdraw every month on the:</span>
+                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth1" ng-show="envelope.withdraw.frequency === 3 || envelope.withdraw.frequency === 4">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+                                    <span ng-show="envelope.withdraw.frequency === 3">&</span>
+                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth2" ng-show="envelope.withdraw.frequency === 3">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+
+                                    <!--Semi-Annually & Annually-->
+                                    <span ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">Widthdrawn every year on:</span>
+
+                                    <select class="control" ng-model="envelope.withdraw.month1" ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">
+                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                    </select>
+
+                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth1" ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+
+                                    <span ng-show="envelope.withdraw.frequency === 6">&</span>
+
+                                    <select class="control" ng-model="envelope.withdraw.month2" ng-show="envelope.withdraw.frequency === 6">
+                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
+                                    </select>
+
+                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth2" ng-show="envelope.withdraw.frequency === 6">
+                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!--Period Start-->
+                                <div align="center">
+                                    <span style="font-style:italic; font-size: 12px" ng-show="envelope.withdraw.frequency === 2">Enter a date when this envelope has been withdrawn:</span>
+                                    <div align="center">
+                                        <input class="control" ng-show="envelope.withdraw.frequency === 2" type="date" ng-model="envelope.withdraw.periodStart">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <!--Add envelope-->
+                    <div class="add-employer" ng-click="accountCtrl.addEnvelope()"> <span class="add-employer-text">Click to add an envelope</span></div>
+                </div>
+                <button style="position:relative; top: 5px" ng-click="accountCtrl.setScreen(0)">Previous</button>
+                <button style="position:relative; left: 552px; top: 5px">Submit</button>
+            </div>
+            
         </form>
     </div>
 

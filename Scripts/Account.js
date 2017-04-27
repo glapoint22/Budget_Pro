@@ -2,18 +2,45 @@
 angular.module('account', []).controller('AccountController', function () {
     var ctrl = this;
 
-    
-
+    //Account user info
     ctrl.fname = '';
     ctrl.lname = '';
     ctrl.email = '';
     ctrl.pword = '';
 
-    ctrl.employers = [{
-        name: '',
-        incomeType: 0,
-        netPay: undefined,
-        payPeriod: {
+    //Employers
+    ctrl.employers = [getEmployerObject()];
+    ctrl.addEmployer = function () {
+        ctrl.employers.push(getEmployerObject());
+    };
+
+
+    //Envelopes
+    ctrl.envelopes = [getEnvelopeObject()];
+    ctrl.addEnvelope = function () {
+        ctrl.envelopes.push(getEnvelopeObject());
+    };
+
+    function getEmployerObject() {
+        return {
+            name: '',
+            incomeType: 0,
+            netPay: undefined,
+            payPeriod: getPeriodObject()
+        }
+    }
+
+    function getEnvelopeObject() {
+        return {
+            name: '',
+            envelopeType: 0,
+            amount: undefined,
+            withdraw: getPeriodObject()
+        }
+    }
+
+    function getPeriodObject() {
+        return {
             frequency: 0,
             dayOfWeek: 0,
             dayOfMonth1: 1,
@@ -22,24 +49,7 @@ angular.module('account', []).controller('AccountController', function () {
             month2: 11,
             periodStart: new Date()
         }
-    }];
-
-    ctrl.addEmployer = function () {
-        ctrl.employers.push({
-            name: '',
-            incomeType: 0,
-            netPay: undefined,
-            payPeriod: {
-                frequency: 0,
-                dayOfWeek: 0,
-                dayOfMonth1: 1,
-                dayOfMonth2: 31,
-                month1: 0,
-                month2: 11,
-                periodStart: new Date()
-            }
-        });
-    };
+    }
 
     //Pay period frequency
     ctrl.frequencyList = [
@@ -110,5 +120,10 @@ angular.module('account', []).controller('AccountController', function () {
         { id: 9, name: 'October' },
         { id: 10, name: 'November' },
         { id: 11, name: 'December' }];
+    ctrl.screenIndex = 0;
+
+    ctrl.setScreen = function (index) {
+        ctrl.screenIndex = index;
+    }
 });
 

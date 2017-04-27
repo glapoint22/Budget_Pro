@@ -7,7 +7,7 @@ form {
   position: relative;
   top: 50px;
   width: 680px;
-  height: 650px;
+  height: 800px;
   font-size: 16px;
   line-height: 24px;
   font-weight: bold;
@@ -27,7 +27,7 @@ form {
     font-size: 14px;
     text-indent: 5px;
     height: 28px;
-    margin: 5px 0px 5px 0px; }
+    margin: 5px 0px 10px 0px; }
   form .width-50 {
     width: 49.2%; }
   form .float-left {
@@ -59,15 +59,62 @@ form {
     background-color: #506f8d;
     cursor: pointer;
     color: #ffffff; }
-  form .remove {
+  form .remove-text {
     position: relative;
     top: -15px;
-    left: 460px;
+    left: 570px;
     font-size: 14px;
     font-style: italic;
     text-decoration: underline;
-    color: #bbbbbb; }
-  form .remove:hover {
+    color: #bbbbbb;
+    height: 0px;
+    width: 0px; }
+  form .remove-text:hover {
     color: #ffffff;
     cursor: pointer; }
+  form hr {
+    border: 1px solid #808080;
+    width: 75%; }
+  form .numbered-circle {
+    background-color: #184b83;
+    height: 25px;
+    width: 25px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    text-align: center;
+    margin: 5px 0px 5px 0px;
+    color: white; }
+  form .section-text {
+    position: relative;
+    left: 30px;
+    top: -28px;
+    color: white;
+    height: 0px; }
+  form .content-container {
+    background-color: #14161d;
+    border: 1px solid #5a5a5a;
+    overflow: auto;
+    margin-top: 5px; }
+  form fieldset {
+    background-color: #1d212a;
+    margin: 5px 10px 5px 10px;
+    border: 1px dashed white; }
+  form .flex-container {
+    display: -webkit-flex;
+    display: flex;
+    width: 625px; }
+  form .flex-control {
+    width: 625px;
+    margin: 0px 5px 0px 5px; }
+  form .radio-group {
+    text-align: center;
+    margin-bottom: 5px; }
+  form ::-webkit-scrollbar {
+    width: 15px; }
+  form ::-webkit-scrollbar-track {
+    background: #151515;
+    border: 1px solid #333232; }
+  form ::-webkit-scrollbar-thumb {
+    background: #464a53;
+    border: 1px solid #868686; }
 
