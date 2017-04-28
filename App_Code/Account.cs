@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Web.Services;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -16,13 +15,16 @@ using System.Web.Script.Serialization;
 public class Account : WebService
 {
     [WebMethod]
-    public void CreateAccount(string fname, string lname, string email, string pword, string[] employers)
-    //public void CreateAccount()
+    public void CreateAccount(string user, string[] employers, string[] envelopes)
     {
+        JavaScriptSerializer js = new JavaScriptSerializer();
         DataTable employersTable = new DataTable();
+        DataTable envelopesTable = new DataTable();
         DataColumn column;
         DataRow row;
 
+
+        //-------------Employers----------------
         //employerID
         column = new DataColumn();
         column.DataType = Type.GetType("System.Guid");
@@ -110,6 +112,39 @@ public class Account : WebService
         employersTable.Columns.Add(column);
 
 
+
+
+
+
+
+
+
+        //----------------Envelopes-------------------
+        //name
+        column = new DataColumn();
+        column.DataType = Type.GetType("System.String");
+        column.ColumnName = "name";
+        column.Unique = false;
+        envelopesTable.Columns.Add(column);
+
+
+        //Envelope Type
+        column = new DataColumn();
+        column.DataType = Type.GetType("System.Int32");
+        column.ColumnName = "envelopeType";
+        column.Unique = false;
+        envelopesTable.Columns.Add(column);
+
+
+        //Amount
+        column = new DataColumn();
+        column.DataType = Type.GetType("System.Decimal");
+        column.ColumnName = "amount";
+        column.Unique = false;
+        envelopesTable.Columns.Add(column);
+
+
+
         string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
         using (SqlConnection con = new SqlConnection(cs))
         {
@@ -118,25 +153,22 @@ public class Account : WebService
             SqlCommand cmd = new SqlCommand("CreateAccount", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
+            User u = js.Deserialize<User>(user);
+
             //First Name
-            cmd.Parameters.Add("@fname", SqlDbType.VarChar, 30).Value = fname;
+            cmd.Parameters.Add("@fname", SqlDbType.VarChar, 30).Value = u.firstName;
 
             //Last Name
-            cmd.Parameters.Add("@lname", SqlDbType.VarChar, 30).Value = lname;
+            cmd.Parameters.Add("@lname", SqlDbType.VarChar, 30).Value = u.lastName;
 
             //Email
-            cmd.Parameters.Add("@email", SqlDbType.VarChar, 30).Value = email;
+            cmd.Parameters.Add("@email", SqlDbType.VarChar, 30).Value = u.email;
 
             //Password
-            cmd.Parameters.Add("@pword", SqlDbType.VarChar, 30).Value = pword;
-
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-
-
+            cmd.Parameters.Add("@pword", SqlDbType.VarChar, 30).Value = u.password;
             
 
-            //Employers
+            //Add rows to the employers table
             for (int i = 0; i < employers.Length; i++)
             {
                 Employer employer = js.Deserialize<Employer>(employers[i]);
@@ -154,13 +186,25 @@ public class Account : WebService
                 row["periodStart"] = employer.payPeriod.periodStart;
                 employersTable.Rows.Add(row);
             }
-
-
-
-
-
             SqlParameter employerParams = cmd.Parameters.AddWithValue("@employerList", employersTable);
             employerParams.SqlDbType = SqlDbType.Structured;
+
+
+
+
+
+            //Add rows to the envelopes table
+            for (int i = 0; i < envelopes.Length; i++)
+            {
+                Envelope envelope = js.Deserialize<Envelope>(envelopes[i]);
+                row = envelopesTable.NewRow();
+                row["name"] = envelope.name;
+                row["envelopeType"] = envelope.envelopeType;
+                row["amount"] = envelope.amount;
+                envelopesTable.Rows.Add(row);
+            }
+            SqlParameter envelopeParams = cmd.Parameters.AddWithValue("@envelopeList", envelopesTable);
+            envelopeParams.SqlDbType = SqlDbType.Structured;
 
 
 

@@ -73,12 +73,12 @@ public class Envelopes : WebService
                     int numPaydays = employer.payPeriod.GetNumPeriodDates(currentDate, withdrawDate);
 
                     //Calculate how much we are depositing into this envelope
-                    float remaining = envelope.amount - envelope.balance;
-                    float depositAmount = remaining / numPaydays;
+                    //float remaining = envelope.amount - envelope.balance;
+                    //float depositAmount = remaining / numPaydays;
 
                     //Deposit into the current envelope
-                    envelope.balance += depositAmount;
-                    envelope.transactions.Add(new Transaction(currentDate, depositAmount, 0, 0, "Auto deposit from " + employer.name, envelope.balance));
+                    //envelope.balance += depositAmount;
+                    //envelope.transactions.Add(new Transaction(currentDate, depositAmount, 0, 0, "Auto deposit from " + employer.name, envelope.balance));
                 }
             }
 
@@ -88,9 +88,9 @@ public class Envelopes : WebService
             {
                 if (envelope.withdrawPeriod.IsPeriodDate(currentDate))
                 {
-                    float withdrawAmount = envelope.balance;
-                    envelope.balance -= envelope.amount;
-                    envelope.transactions.Add(new Transaction(currentDate, 0, withdrawAmount, 0, "Auto withdraw", envelope.balance));
+                    //float withdrawAmount = envelope.balance;
+                    //envelope.balance -= envelope.amount;
+                    //envelope.transactions.Add(new Transaction(currentDate, 0, withdrawAmount, 0, "Auto withdraw", envelope.balance));
                     
                 }
             }

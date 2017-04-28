@@ -1,5 +1,5 @@
 "use strict";
-angular.module('account', []).controller('AccountController', function () {
+angular.module('account', []).controller('AccountController', ['$http', function ($http) {
     var ctrl = this;
 
     //Account user info
@@ -125,5 +125,23 @@ angular.module('account', []).controller('AccountController', function () {
     ctrl.setScreen = function (index) {
         ctrl.screenIndex = index;
     }
-});
+
+    ctrl.submit = function () {
+        var config = {
+            params: {
+                user: {
+                    firstName: ctrl.fname,
+                    lastName: ctrl.lname,
+                    email: ctrl.email,
+                    password: ctrl.pword
+                },
+                employers: ctrl.employers,
+                envelopes: ctrl.envelopes
+            }
+        }
+
+
+        $http.get('Account.asmx/CreateAccount', config);
+    }
+}]);
 
