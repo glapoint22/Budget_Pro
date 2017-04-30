@@ -9,7 +9,6 @@ public class Envelope
     private List<Transaction> _transactions = new List<Transaction>();
     private Period _withdrawPeriod = new Period();
 
-    [ScriptIgnore]
     public Period withdrawPeriod
     {
         get

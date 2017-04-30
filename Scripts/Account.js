@@ -35,7 +35,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
             name: '',
             envelopeType: 0,
             amount: undefined,
-            withdraw: getPeriodObject()
+            withdrawPeriod: getPeriodObject()
         }
     }
 

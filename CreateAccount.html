@@ -181,7 +181,7 @@
                                 <!--Withdraw-->
                                 <div align="center">
                                     Withdraw Period:
-                                    <select class="control" ng-model="envelope.withdraw.frequency">
+                                    <select class="control" ng-model="envelope.withdrawPeriod.frequency">
                                         <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
                                     </select>
                                 </div>
@@ -189,9 +189,9 @@
 
                                 <!--Weekly & Bi-Weekly-->
                                 <div align="center">
-                                    <span ng-show="envelope.withdraw.frequency === 1">Widthdraw every week on:</span>
-                                    <span ng-show="envelope.withdraw.frequency === 2">Widthdraw every other week on:</span>
-                                    <select class="control" ng-model="envelope.withdraw.dayOfWeek" ng-show="envelope.withdraw.frequency === 1 || envelope.withdraw.frequency === 2">
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 1">Widthdraw every week on:</span>
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 2">Widthdraw every other week on:</span>
+                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfWeek" ng-show="envelope.withdrawPeriod.frequency === 1 || envelope.withdrawPeriod.frequency === 2">
                                         <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
                                     </select>
 
@@ -199,34 +199,34 @@
 
 
                                     <!--Semi-Monthly & Monthly-->
-                                    <span ng-show="envelope.withdraw.frequency === 3 || envelope.withdraw.frequency === 4">Widthdraw every month on the:</span>
-                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth1" ng-show="envelope.withdraw.frequency === 3 || envelope.withdraw.frequency === 4">
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 3 || envelope.withdrawPeriod.frequency === 4">Widthdraw every month on the:</span>
+                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth1" ng-show="envelope.withdrawPeriod.frequency === 3 || envelope.withdrawPeriod.frequency === 4">
                                         <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
                                     </select>
-                                    <span ng-show="envelope.withdraw.frequency === 3">&</span>
-                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth2" ng-show="envelope.withdraw.frequency === 3">
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 3">&</span>
+                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth2" ng-show="envelope.withdrawPeriod.frequency === 3">
                                         <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
                                     </select>
 
 
                                     <!--Semi-Annually & Annually-->
-                                    <span ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">Widthdrawn every year on:</span>
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">Widthdrawn every year on:</span>
 
-                                    <select class="control" ng-model="envelope.withdraw.month1" ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">
+                                    <select class="control" ng-model="envelope.withdrawPeriod.month1" ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">
                                         <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
                                     </select>
 
-                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth1" ng-show="envelope.withdraw.frequency === 6 || envelope.withdraw.frequency === 7">
+                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth1" ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">
                                         <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
                                     </select>
 
-                                    <span ng-show="envelope.withdraw.frequency === 6">&</span>
+                                    <span ng-show="envelope.withdrawPeriod.frequency === 6">&</span>
 
-                                    <select class="control" ng-model="envelope.withdraw.month2" ng-show="envelope.withdraw.frequency === 6">
+                                    <select class="control" ng-model="envelope.withdrawPeriod.month2" ng-show="envelope.withdrawPeriod.frequency === 6">
                                         <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
                                     </select>
 
-                                    <select class="control" ng-model="envelope.withdraw.dayOfMonth2" ng-show="envelope.withdraw.frequency === 6">
+                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth2" ng-show="envelope.withdrawPeriod.frequency === 6">
                                         <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
                                     </select>
                                 </div>
@@ -234,9 +234,9 @@
 
                                 <!--Period Start-->
                                 <div align="center">
-                                    <span style="font-style:italic; font-size: 12px" ng-show="envelope.withdraw.frequency === 2">Enter a date when this envelope has been withdrawn:</span>
+                                    <span style="font-style:italic; font-size: 12px" ng-show="envelope.withdrawPeriod.frequency === 2">Enter a date when this envelope has been withdrawn:</span>
                                     <div align="center">
-                                        <input class="control" ng-show="envelope.withdraw.frequency === 2" type="date" ng-model="envelope.withdraw.periodStart">
+                                        <input class="control" ng-show="envelope.withdrawPeriod.frequency === 2" type="date" ng-model="envelope.withdrawPeriod.periodStart">
                                     </div>
 
                                 </div>

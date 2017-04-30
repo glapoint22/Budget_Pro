@@ -1,27 +1,20 @@
-CREATE TYPE EmployerList
+CREATE TYPE List
 AS TABLE
 (
-	employerID UNIQUEIDENTIFIER DEFAULT NEWID(),
+	ID UNIQUEIDENTIFIER,
 	name VARCHAR(20),
-	incomeType int,
-	netPay float,
+	type int,
+	currency float,
 	freq int,
 	dayOfWeek int,
 	dayOfMonth1 int,
 	dayOfMonth2 int,
 	month1 int,
 	month2 int,
-	periodStart date
+	periodStart date,
+	listType int
 )
 
-
-CREATE TYPE EnvelopeList
-AS TABLE
-(
-	name VARCHAR(30),
-	envelopeType int,
-	amount float
-)
 
 
 
@@ -32,8 +25,7 @@ Create Proc CreateAccount
 	@lname VARCHAR(30),
 	@email VARCHAR(30),
 	@pword VARCHAR(30),
-	@employerList AS EmployerList READONLY,
-	@envelopeList AS EnvelopeList READONLY
+	@list AS List READONLY
 )
 AS
 BEGIN
@@ -45,17 +37,26 @@ BEGIN
 	VALUES (@userID, @fname, @lname, @email, @pword)
 
 	INSERT INTO Employers
-	SELECT employerID, name, incomeType, netPay, @userID
-	FROM @employerList
+	SELECT ID, name, type, currency, @userID
+	FROM @list
+	WHERE listType = 0
 
 	INSERT INTO Envelopes
-	SELECT name, envelopeType, amount, @userID
-	FROM @envelopeList
+	SELECT ID, name, type, currency, @userID
+	FROM @list
+	WHERE listType = 1
 
 	INSERT INTO Period
 	(Frequency, DayOfWeek, DayOfMonth1, DayOfMonth2, Month1, Month2, PeriodStart, EmployerID)
-	SELECT freq, dayOfWeek, dayOfMonth1, dayOfMonth2, month1, month2, periodStart, employerID
-	FROM @employerList
+	SELECT freq, dayOfWeek, dayOfMonth1, dayOfMonth2, month1, month2, periodStart, ID
+	FROM @list
+	WHERE listType = 0
+
+	INSERT INTO Period
+	(Frequency, DayOfWeek, DayOfMonth1, DayOfMonth2, Month1, Month2, PeriodStart, EnvelopeID)
+	SELECT freq, dayOfWeek, dayOfMonth1, dayOfMonth2, month1, month2, periodStart, ID
+	FROM @list
+	WHERE listType = 1
 END
 
 select * from Employers
@@ -65,8 +66,8 @@ select * from Envelopes
 
 delete Employers
 delete Period
-delete Users
 delete Envelopes
+delete Users
 
 create table Envelopes
 (
@@ -78,13 +79,10 @@ create table Envelopes
 	FOREIGN KEY (UserID) REFERENCES Users(ID)
 )
 
-drop table envelopes
 
-alter table Period
-ADD CONSTRAINT FK_Period_EmployerID FOREIGN KEY (EmployerID) REFERENCES Employers(EmployerID)
 
-ALTER TABLE Period
-ADD EnvelopeID UNIQUEIDENTIFIER null,
-FOREIGN KEY (EnvelopeID) REFERENCES Envelopes(EnvelopeID)
+
+
+
 
 

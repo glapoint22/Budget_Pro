@@ -18,8 +18,7 @@ public class Account : WebService
     public void CreateAccount(string user, string[] employers, string[] envelopes)
     {
         JavaScriptSerializer js = new JavaScriptSerializer();
-        DataTable employersTable = new DataTable();
-        DataTable envelopesTable = new DataTable();
+        DataTable listTable = new DataTable();
         DataColumn column;
         DataRow row;
 
@@ -28,32 +27,32 @@ public class Account : WebService
         //employerID
         column = new DataColumn();
         column.DataType = Type.GetType("System.Guid");
-        column.ColumnName = "employerID";
+        column.ColumnName = "ID";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
         //name
         column = new DataColumn();
         column.DataType = Type.GetType("System.String");
         column.ColumnName = "name";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //incomeType
         column = new DataColumn();
         column.DataType = Type.GetType("System.Int32");
-        column.ColumnName = "incomeType";
+        column.ColumnName = "type";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //netPay
         column = new DataColumn();
         column.DataType = Type.GetType("System.Decimal");
-        column.ColumnName = "netPay";
+        column.ColumnName = "currency";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //freq
@@ -61,7 +60,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "freq";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //dayOfWeek
@@ -69,7 +68,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "dayOfWeek";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //dayOfMonth1
@@ -77,7 +76,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "dayOfMonth1";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //dayOfMonth2
@@ -85,7 +84,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "dayOfMonth2";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //month1
@@ -93,7 +92,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "month1";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //month2
@@ -101,7 +100,7 @@ public class Account : WebService
         column.DataType = Type.GetType("System.Int32");
         column.ColumnName = "month2";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
         //periodStart
@@ -109,39 +108,26 @@ public class Account : WebService
         column.DataType = Type.GetType("System.DateTime");
         column.ColumnName = "periodStart";
         column.Unique = false;
-        employersTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
 
-
-
-
-
-
-
-        //----------------Envelopes-------------------
-        //name
-        column = new DataColumn();
-        column.DataType = Type.GetType("System.String");
-        column.ColumnName = "name";
-        column.Unique = false;
-        envelopesTable.Columns.Add(column);
-
-
-        //Envelope Type
+        //list Type
         column = new DataColumn();
         column.DataType = Type.GetType("System.Int32");
-        column.ColumnName = "envelopeType";
+        column.ColumnName = "listType";
         column.Unique = false;
-        envelopesTable.Columns.Add(column);
+        listTable.Columns.Add(column);
 
 
-        //Amount
-        column = new DataColumn();
-        column.DataType = Type.GetType("System.Decimal");
-        column.ColumnName = "amount";
-        column.Unique = false;
-        envelopesTable.Columns.Add(column);
+
+
+
+
+
+
+
+
 
 
 
@@ -168,15 +154,15 @@ public class Account : WebService
             cmd.Parameters.Add("@pword", SqlDbType.VarChar, 30).Value = u.password;
             
 
-            //Add rows to the employers table
+            //Employers
             for (int i = 0; i < employers.Length; i++)
             {
                 Employer employer = js.Deserialize<Employer>(employers[i]);
-                row = employersTable.NewRow();
-                row["employerID"] = Guid.NewGuid();
+                row = listTable.NewRow();
+                row["ID"] = Guid.NewGuid();
                 row["name"] = employer.name;
-                row["incomeType"] = employer.incomeType;
-                row["netPay"] = employer.netPay;
+                row["type"] = employer.incomeType;
+                row["currency"] = employer.netPay;
                 row["freq"] = employer.payPeriod.frequency;
                 row["dayOfWeek"] = employer.payPeriod.dayOfWeek;
                 row["dayOfMonth1"] = employer.payPeriod.dayOfMonth1;
@@ -184,27 +170,36 @@ public class Account : WebService
                 row["month1"] = employer.payPeriod.month1;
                 row["month2"] = employer.payPeriod.month2;
                 row["periodStart"] = employer.payPeriod.periodStart;
-                employersTable.Rows.Add(row);
+                row["listType"] = 0;
+                listTable.Rows.Add(row);
             }
-            SqlParameter employerParams = cmd.Parameters.AddWithValue("@employerList", employersTable);
-            employerParams.SqlDbType = SqlDbType.Structured;
+            
 
 
 
 
 
-            //Add rows to the envelopes table
+            //Envelopes
             for (int i = 0; i < envelopes.Length; i++)
             {
                 Envelope envelope = js.Deserialize<Envelope>(envelopes[i]);
-                row = envelopesTable.NewRow();
+                row = listTable.NewRow();
+                row["ID"] = Guid.NewGuid();
                 row["name"] = envelope.name;
-                row["envelopeType"] = envelope.envelopeType;
-                row["amount"] = envelope.amount;
-                envelopesTable.Rows.Add(row);
+                row["type"] = envelope.envelopeType;
+                row["currency"] = envelope.amount;
+                row["freq"] = envelope.withdrawPeriod.frequency;
+                row["dayOfWeek"] = envelope.withdrawPeriod.dayOfWeek;
+                row["dayOfMonth1"] = envelope.withdrawPeriod.dayOfMonth1;
+                row["dayOfMonth2"] = envelope.withdrawPeriod.dayOfMonth2;
+                row["month1"] = envelope.withdrawPeriod.month1;
+                row["month2"] = envelope.withdrawPeriod.month2;
+                row["periodStart"] = envelope.withdrawPeriod.periodStart;
+                row["listType"] = 1;
+                listTable.Rows.Add(row);
             }
-            SqlParameter envelopeParams = cmd.Parameters.AddWithValue("@envelopeList", envelopesTable);
-            envelopeParams.SqlDbType = SqlDbType.Structured;
+            SqlParameter listParams = cmd.Parameters.AddWithValue("@list", listTable);
+            listParams.SqlDbType = SqlDbType.Structured;
 
 
 
