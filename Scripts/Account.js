@@ -14,12 +14,23 @@ angular.module('account', []).controller('AccountController', ['$http', function
         ctrl.employers.push(getEmployerObject());
     };
 
+    
+
 
     //Envelopes
     ctrl.envelopes = [getEnvelopeObject()];
     ctrl.addEnvelope = function () {
         ctrl.envelopes.push(getEnvelopeObject());
     };
+
+    ctrl.employerText = getInfoText('Employer', 500);
+
+    function getInfoText(legend, height) {
+        return {
+            legend: legend,
+            height: height
+        }
+    }
 
     function getEmployerObject() {
         return {
@@ -50,6 +61,10 @@ angular.module('account', []).controller('AccountController', ['$http', function
             periodStart: new Date()
         }
     }
+
+
+    
+
 
     //Pay period frequency
     ctrl.frequencyList = [
@@ -143,5 +158,16 @@ angular.module('account', []).controller('AccountController', ['$http', function
 
         $http.get('Account.asmx/CreateAccount', config);
     }
-}]);
+}])
+.directive('infoSet', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            sets: '=set',
+            controller: '=',
+            infoText: '='
+        },
+        templateUrl: 'info-set.html'
+    };
+});
 

@@ -1,0 +1,98 @@
+<div class="content-container" style="height: {{infoText.height}}px">
+    <div ng-repeat="currentSet in sets">
+
+        <!--Employers-->
+        <fieldset>
+            <legend>{{infoText.legend}} {{$index + 1}}:</legend>
+
+            <!--Remove Employer-->
+            <div class="remove-text">Remove</div>
+
+
+            <!--Income Type-->
+            <div class="radio-group">
+                Income Type:
+                <input type="radio" ng-model="currentSet.incomeType" ng-value="0">Fixed Income
+                <input type="radio" ng-model="currentSet.incomeType" ng-value="1">Variable Income
+            </div>
+
+            <!--Employer Name & Net Pay-->
+            <div class="flex-container">
+                <input class="control flex-control" ng-model="currentSet.name" placeholder="Employer Name">
+                <input ng-hide="currentSet.incomeType === 1" class="control flex-control" type="text" ng-model="currentSet.netPay" placeholder="Net Pay">
+            </div>
+
+
+            <!--Show if income type is fixed income-->
+            <div ng-show="currentSet.incomeType === 0">
+                <!--Pay Period Frequency-->
+                <div align="center">
+                    Pay Period Frequency:
+                    <select class="control" ng-model="currentSet.payPeriod.frequency">
+                        <option ng-repeat="frequency in controller.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                    </select>
+                </div>
+
+
+
+                <div align="center">
+                    <!--Weekly & Bi-Weekly-->
+                    <span ng-show="currentSet.payPeriod.frequency === 1">This employer pays me every week on:</span>
+                    <span ng-show="currentSet.payPeriod.frequency === 2">This employer pays me every other week on:</span>
+                    <select class="control" ng-model="currentSet.payPeriod.dayOfWeek" ng-show="currentSet.payPeriod.frequency === 1 || currentSet.payPeriod.frequency === 2">
+                        <option ng-repeat="day in controller.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+
+
+
+                    <!--Semi-Monthly & Monthly-->
+                    <span ng-show="currentSet.payPeriod.frequency === 3 || currentSet.payPeriod.frequency === 4">This employer pays me every month on the:</span>
+                    <select class="control" ng-model="currentSet.payPeriod.dayOfMonth1" ng-show="currentSet.payPeriod.frequency === 3 || currentSet.payPeriod.frequency === 4">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                    <span ng-show="currentSet.payPeriod.frequency === 3">&</span>
+                    <select class="control" ng-model="currentSet.payPeriod.dayOfMonth2" ng-show="currentSet.payPeriod.frequency === 3">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+
+                    <!--Semi-Annually & Annually-->
+                    <span ng-show="currentSet.payPeriod.frequency === 6 || currentSet.payPeriod.frequency === 7">This employer pays me every year on:</span>
+
+                    <select class="control" ng-model="currentSet.payPeriod.month1" ng-show="currentSet.payPeriod.frequency === 6 || currentSet.payPeriod.frequency === 7">
+                        <option ng-repeat="month in controller.months" ng-value="month.id">{{month.name}}</option>
+                    </select>
+
+                    <select class="control" ng-model="currentSet.payPeriod.dayOfMonth1" ng-show="currentSet.payPeriod.frequency === 6 || currentSet.payPeriod.frequency === 7">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+                    <span ng-show="currentSet.payPeriod.frequency === 6">&</span>
+
+                    <select class="control" ng-model="currentSet.payPeriod.month2" ng-show="currentSet.payPeriod.frequency === 6">
+                        <option ng-repeat="month in controller.months" ng-value="month.id">{{month.name}}</option>
+                    </select>
+
+                    <select class="control" ng-model="currentSet.payPeriod.dayOfMonth2" ng-show="currentSet.payPeriod.frequency === 6">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                </div>
+
+
+                <!--Period Start-->
+                <div align="center">
+                    <span style="font-style:italic; font-size: 12px" ng-show="currentSet.payPeriod.frequency === 2">Enter a date when you've received payment from this employer or a date when you expect to be paid:</span>
+                    <div align="center">
+                        <input class="control" ng-show="currentSet.payPeriod.frequency === 2" type="date" ng-model="currentSet.payPeriod.periodStart">
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+
+
+    </div>
+    <!--Add Employer-->
+    <div class="add-employer" ng-click="controller.addEmployer()"> <span class="add-employer-text">Click to add an employer</span></div>
+</div>
