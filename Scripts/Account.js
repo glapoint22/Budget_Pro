@@ -9,48 +9,85 @@ angular.module('account', []).controller('AccountController', ['$http', function
     ctrl.pword = '';
 
     //Employers
-    ctrl.employers = [getEmployerObject()];
+    ctrl.employers = [new budgetItem()];
     ctrl.addEmployer = function () {
-        ctrl.employers.push(getEmployerObject());
+        ctrl.employers.push(new budgetItem());
     };
+
+    ctrl.employerText = new itemText('Employer',
+                                    500,
+                                    'Income Type:',
+                                    'Fixed Income',
+                                    'Variable Income',
+                                    'Employer Name',
+                                    'Net Pay',
+                                    'Pay Period Frequency:',
+                                    'This employer pays me every week on:',
+                                    'This employer pays me every other week on:',
+                                    'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:',
+                                    'This employer pays me every month on the:',
+                                    'This employer pays me every year on:',
+                                    'Click to add an employer'
+                                    );
 
     
 
 
     //Envelopes
-    ctrl.envelopes = [getEnvelopeObject()];
+    ctrl.envelopes = [new budgetItem()];
     ctrl.addEnvelope = function () {
-        ctrl.envelopes.push(getEnvelopeObject());
+        ctrl.envelopes.push(new budgetItem());
     };
 
-    ctrl.employerText = getInfoText('Employer', 500);
+    ctrl.envelopeText = new itemText('Envelope',
+                                    671,
+                                    'Envelope Type:',
+                                    'Dynamic',
+                                    'Static',
+                                    'Envelope Name',
+                                    'Amount',
+                                    'Withdraw Frequency:',
+                                    'This envelope gets withdrawn every week on:',
+                                    'This envelope gets withdrawn every other week on:',
+                                    'Enter a date when this envelope has been withdrawn:',
+                                    'This envelope gets withdrawn every month on the:',
+                                    'This envelope gets withdrawn every year on:',
+                                    'Click to add an envelope'
+                                    );
 
-    function getInfoText(legend, height) {
+
+
+    function itemText(legend, height, radioTitle, radio1, radio2, name, currency, frequency, weekly, biWeekly, periodStart, monthly, annually, add) {
         return {
             legend: legend,
-            height: height
+            height: height,
+            radioTitle: radioTitle,
+            radio1: radio1,
+            radio2: radio2,
+            name: name,
+            currency: currency,
+            frequency: frequency,
+            weekly: weekly,
+            biWeekly: biWeekly,
+            periodStart: periodStart,
+            monthly: monthly,
+            annually: annually,
+            add: add
         }
     }
 
-    function getEmployerObject() {
+    function budgetItem() {
         return {
             name: '',
-            incomeType: 0,
-            netPay: undefined,
-            payPeriod: getPeriodObject()
+            type: 0,
+            currency: undefined,
+            period: new period()
         }
     }
 
-    function getEnvelopeObject() {
-        return {
-            name: '',
-            envelopeType: 0,
-            amount: undefined,
-            withdrawPeriod: getPeriodObject()
-        }
-    }
+    
 
-    function getPeriodObject() {
+    function period() {
         return {
             frequency: 0,
             dayOfWeek: 0,
@@ -159,15 +196,16 @@ angular.module('account', []).controller('AccountController', ['$http', function
         $http.get('Account.asmx/CreateAccount', config);
     }
 }])
-.directive('infoSet', function () {
+.directive('itemSets', function () {
     return {
         restrict: 'E',
         scope: {
-            sets: '=set',
+            items: '=item',
             controller: '=',
-            infoText: '='
+            itemText: '=',
+            addItem: '='
         },
-        templateUrl: 'info-set.html'
+        templateUrl: 'item-set.html'
     };
 });
 

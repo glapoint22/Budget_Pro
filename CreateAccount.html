@@ -9,7 +9,7 @@
 </head>
 <body ng-app="account">
     <div ng-controller="AccountController as accountCtrl">
-        <form>
+        <form novalidate>
             <h2>Create an account</h2>
             <hr/>
 
@@ -19,36 +19,29 @@
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name">
+                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" required>
 
                     <!--Last Name-->
                     <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name">
 
                     <!--Email-->
-                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.email" placeholder="Email">
+                    <input class="control width-50 float-left" type="email" ng-model="accountCtrl.email" placeholder="Email">
 
                     <!--Confirm Email-->
-                    <input class="control width-50 float-right" type="text" placeholder="Confirm Email">
+                    <input class="control width-50 float-right" type="email" placeholder="Confirm Email">
 
                     <!--Password-->
-                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.pword" placeholder="Password">
+                    <input class="control width-50 float-left" type="password" ng-model="accountCtrl.pword" placeholder="Password">
 
                     <!--Confirm Password-->
-                    <input class="control width-50 float-right" type="text" placeholder="Confirm Password">
+                    <input class="control width-50 float-right" type="password" placeholder="Confirm Password">
 
                     <div style="clear:both" class="numbered-circle">2</div>
                     <div class="section-text">Employers</div>
                 </div>
 
-                <!--Employer Container-->
-               <info-set set="accountCtrl.employers" controller="accountCtrl" info-text="accountCtrl.employerText"></info-set>
-                
-                
-                
-                
-                
-                
-                
+                <!--Employers-->
+               <item-sets item="accountCtrl.employers" controller="accountCtrl" item-text="accountCtrl.employerText" add-item="accountCtrl.addEmployer"></item-sets>
                 <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1)">Next</button>
             </div>
 
@@ -56,119 +49,9 @@
                 <div class="numbered-circle">3</div>
                 <div class="section-text">Envelopes</div>
 
-                
+                <!--Envelopes-->
+                <item-sets item="accountCtrl.envelopes" controller="accountCtrl" item-text="accountCtrl.envelopeText" add-item="accountCtrl.addEnvelope"></item-sets>
 
-
-
-
-
-
-
-
-
-
-
-
-
-                <!--Envelope Container-->
-                <div class="content-container" style="height: 671px">
-                    <div ng-repeat="envelope in accountCtrl.envelopes">
-
-                        <!--envelopes-->
-                        <fieldset>
-                            <legend>Envelope {{$index + 1}}:</legend>
-
-
-                            <!--Remove Envelope-->
-                            <div class="remove-text">Remove</div>
-
-
-                            <!--Envelope Type-->
-                            <div class="radio-group">
-                                Envelope Type:
-                                <input type="radio" ng-model="envelope.envelopeType" ng-value="0">Dynamic
-                                <input type="radio" ng-model="envelope.envelopeType" ng-value="1">Static
-                            </div>
-                           
-
-
-                            <!--Envelope Name & Envelope Amount-->
-                            <div class="flex-container">
-                                <input class="control flex-control" ng-model="envelope.name" placeholder="Envelope Name">
-                                <input ng-hide="envelope.envelopeType === 1" class="control flex-control" type="text" ng-model="envelope.amount" placeholder="Envelope Amount">
-                            </div>
-
-
-                            <!--Show if envelope type is dynamic-->
-                            <div ng-show="envelope.envelopeType === 0">
-                                <!--Withdraw-->
-                                <div align="center">
-                                    Withdraw Period:
-                                    <select class="control" ng-model="envelope.withdrawPeriod.frequency">
-                                        <option ng-repeat="frequency in accountCtrl.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
-                                    </select>
-                                </div>
-
-
-                                <!--Weekly & Bi-Weekly-->
-                                <div align="center">
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 1">Widthdraw every week on:</span>
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 2">Widthdraw every other week on:</span>
-                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfWeek" ng-show="envelope.withdrawPeriod.frequency === 1 || envelope.withdrawPeriod.frequency === 2">
-                                        <option ng-repeat="day in accountCtrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
-                                    </select>
-
-
-
-
-                                    <!--Semi-Monthly & Monthly-->
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 3 || envelope.withdrawPeriod.frequency === 4">Widthdraw every month on the:</span>
-                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth1" ng-show="envelope.withdrawPeriod.frequency === 3 || envelope.withdrawPeriod.frequency === 4">
-                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                    </select>
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 3">&</span>
-                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth2" ng-show="envelope.withdrawPeriod.frequency === 3">
-                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                    </select>
-
-
-                                    <!--Semi-Annually & Annually-->
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">Widthdrawn every year on:</span>
-
-                                    <select class="control" ng-model="envelope.withdrawPeriod.month1" ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">
-                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
-                                    </select>
-
-                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth1" ng-show="envelope.withdrawPeriod.frequency === 6 || envelope.withdrawPeriod.frequency === 7">
-                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                    </select>
-
-                                    <span ng-show="envelope.withdrawPeriod.frequency === 6">&</span>
-
-                                    <select class="control" ng-model="envelope.withdrawPeriod.month2" ng-show="envelope.withdrawPeriod.frequency === 6">
-                                        <option ng-repeat="month in accountCtrl.months" ng-value="month.id">{{month.name}}</option>
-                                    </select>
-
-                                    <select class="control" ng-model="envelope.withdrawPeriod.dayOfMonth2" ng-show="envelope.withdrawPeriod.frequency === 6">
-                                        <option ng-repeat="day in accountCtrl.daysOfMonth" ng-value="day.id">{{day.name}}</option>
-                                    </select>
-                                </div>
-
-
-                                <!--Period Start-->
-                                <div align="center">
-                                    <span style="font-style:italic; font-size: 12px" ng-show="envelope.withdrawPeriod.frequency === 2">Enter a date when this envelope has been withdrawn:</span>
-                                    <div align="center">
-                                        <input class="control" ng-show="envelope.withdrawPeriod.frequency === 2" type="date" ng-model="envelope.withdrawPeriod.periodStart">
-                                    </div>
-
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <!--Add envelope-->
-                    <div class="add-employer" ng-click="accountCtrl.addEnvelope()"> <span class="add-employer-text">Click to add an envelope</span></div>
-                </div>
                 <button style="position:relative; top: 5px" ng-click="accountCtrl.setScreen(0)">Previous</button>
                 <button style="position:relative; left: 552px; top: 5px" ng-click="accountCtrl.submit()">Submit</button>
             </div>

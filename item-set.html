@@ -1,0 +1,96 @@
+<div class="content-container" style="height: {{itemText.height}}px">
+    <div ng-repeat="currentItem in items">
+
+        <fieldset>
+            <legend>{{itemText.legend}} {{$index + 1}}:</legend>
+
+            <!--Remove-->
+            <div class="remove-text">Remove</div>
+
+
+            <!--Type-->
+            <div class="radio-group">
+                {{itemText.radioTitle}}
+                <input type="radio" ng-model="currentItem.type" ng-value="0">{{itemText.radio1}}
+                <input type="radio" ng-model="currentItem.type" ng-value="1">{{itemText.radio2}}
+            </div>
+
+            <!--Name & currency text boxes-->
+            <div class="flex-container">
+                <input class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}">
+                <input ng-hide="currentItem.type === 1" class="control flex-control" type="text" ng-model="currentItem.currency" placeholder="{{itemText.currency}}">
+            </div>
+
+
+            <div ng-show="currentItem.type === 0">
+                <!--Pay Period Frequency-->
+                <div align="center">
+                    {{itemText.frequency}}
+                    <select class="control" ng-model="currentItem.period.frequency">
+                        <option ng-repeat="frequency in controller.frequencyList" ng-value="frequency.id">{{frequency.name}}</option>
+                    </select>
+                </div>
+
+
+
+                <div align="center">
+                    <!--Weekly & Bi-Weekly-->
+                    <span ng-show="currentItem.period.frequency === 1">{{itemText.weekly}}</span>
+                    <span ng-show="currentItem.period.frequency === 2">{{itemText.biWeekly}}</span>
+                    <select class="control" ng-model="currentItem.period.dayOfWeek" ng-show="currentItem.period.frequency === 1 || currentItem.period.frequency === 2">
+                        <option ng-repeat="day in controller.daysOfWeek" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+
+
+
+                    <!--Semi-Monthly & Monthly-->
+                    <span ng-show="currentItem.period.frequency === 3 || currentItem.period.frequency === 4">{{itemText.monthly}}</span>
+                    <select class="control" ng-model="currentItem.period.dayOfMonth1" ng-show="currentItem.period.frequency === 3 || currentItem.period.frequency === 4">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                    <span ng-show="currentItem.period.frequency === 3">&</span>
+                    <select class="control" ng-model="currentItem.period.dayOfMonth2" ng-show="currentItem.period.frequency === 3">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+
+                    <!--Semi-Annually & Annually-->
+                    <span ng-show="currentItem.period.frequency === 6 || currentItem.period.frequency === 7">{{itemText.annually}}</span>
+
+                    <select class="control" ng-model="currentItem.period.month1" ng-show="currentItem.period.frequency === 6 || currentItem.period.frequency === 7">
+                        <option ng-repeat="month in controller.months" ng-value="month.id">{{month.name}}</option>
+                    </select>
+
+                    <select class="control" ng-model="currentItem.period.dayOfMonth1" ng-show="currentItem.period.frequency === 6 || currentItem.period.frequency === 7">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+
+                    <span ng-show="currentItem.period.frequency === 6">&</span>
+
+                    <select class="control" ng-model="currentItem.period.month2" ng-show="currentItem.period.frequency === 6">
+                        <option ng-repeat="month in controller.months" ng-value="month.id">{{month.name}}</option>
+                    </select>
+
+                    <select class="control" ng-model="currentItem.period.dayOfMonth2" ng-show="currentItem.period.frequency === 6">
+                        <option ng-repeat="day in controller.daysOfMonth" ng-value="day.id">{{day.name}}</option>
+                    </select>
+                </div>
+
+
+                <!--Period Start-->
+                <div align="center">
+                    <span style="font-style:italic; font-size: 12px" ng-show="currentItem.period.frequency === 2">{{itemText.periodStart}}</span>
+                    <div align="center">
+                        <input class="control" ng-show="currentItem.period.frequency === 2" type="date" ng-model="currentItem.period.periodStart">
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+
+
+    </div>
+    <!--Add Item-->
+    <div class="add-employer" ng-click="addItem()"> <span class="add-employer-text">{{itemText.add}}</span></div>
+</div>

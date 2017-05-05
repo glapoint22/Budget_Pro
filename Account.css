@@ -6,7 +6,7 @@ form {
   margin: auto;
   position: relative;
   top: 50px;
-  width: 680px;
+  width: 700px;
   height: 800px;
   font-size: 16px;
   line-height: 24px;
@@ -62,7 +62,7 @@ form {
   form .remove-text {
     position: relative;
     top: -15px;
-    left: 570px;
+    left: 600px;
     font-size: 14px;
     font-style: italic;
     text-decoration: underline;
@@ -98,13 +98,14 @@ form {
   form fieldset {
     background-color: #1d212a;
     margin: 5px 10px 5px 10px;
-    border: 1px dashed white; }
+    border: 1px dashed white;
+    padding-right: 5px; }
   form .flex-container {
     display: -webkit-flex;
     display: flex;
-    width: 625px; }
+    width: 650px; }
   form .flex-control {
-    width: 625px;
+    width: 638px;
     margin: 0px 5px 0px 5px; }
   form .radio-group {
     text-align: center;
