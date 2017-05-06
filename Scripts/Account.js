@@ -6,7 +6,9 @@ angular.module('account', []).controller('AccountController', ['$http', function
     ctrl.fname = '';
     ctrl.lname = '';
     ctrl.email = '';
+    ctrl.cEmail = '';
     ctrl.pword = '';
+    ctrl.cPword = '';
 
     //Employers
     ctrl.employers = [new budgetItem()];
@@ -30,7 +32,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
                                     'Click to add an employer'
                                     );
 
-    
+
 
 
     //Envelopes
@@ -85,7 +87,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
         }
     }
 
-    
+
 
     function period() {
         return {
@@ -100,7 +102,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
     }
 
 
-    
+
 
 
     //Pay period frequency
@@ -174,7 +176,11 @@ angular.module('account', []).controller('AccountController', ['$http', function
         { id: 11, name: 'December' }];
     ctrl.screenIndex = 0;
 
-    ctrl.setScreen = function (index) {
+    ctrl.setScreen = function (index, valid) {
+        if (!valid) {
+            alert("Form not valid!");
+            return;
+        }
         ctrl.screenIndex = index;
     }
 
@@ -207,5 +213,25 @@ angular.module('account', []).controller('AccountController', ['$http', function
         },
         templateUrl: 'item-set.html'
     };
+})
+.directive('compare', function () {
+    return {
+        require: 'ngModel',
+        scope: {
+            compare: '='
+        },
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$validators.compare = function (modelValue) {
+                return modelValue === scope.compare;
+
+            };
+
+            scope.$watch("compare", function () {
+                ctrl.$validate();
+            });
+
+            
+        }
+    }
 });
 

@@ -30,6 +30,10 @@ form {
         text-indent: 5px;
         height: 28px;
         margin: 5px 0px 10px 0px;
+        &.ng-invalid.ng-touched{
+            border-color: red;
+            outline: none;
+        }
     }
     .width-50{
         width: 49.2%;
@@ -42,7 +46,7 @@ form {
         float: right;
     }
 
-    .add-employer{
+    .add-item{
         text-align:center; 
         text-decoration: underline; 
         font-style: italic; 
@@ -51,7 +55,7 @@ form {
         color: #939393;
     }
 
-    .add-employer-text:hover{
+    .add-item-text:hover{
         cursor: pointer;
         color: white;
         text-decoration: underline;

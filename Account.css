@@ -28,20 +28,23 @@ form {
     text-indent: 5px;
     height: 28px;
     margin: 5px 0px 10px 0px; }
+    form .control.ng-invalid.ng-touched {
+      border-color: red;
+      outline: none; }
   form .width-50 {
     width: 49.2%; }
   form .float-left {
     float: left; }
   form .float-right {
     float: right; }
-  form .add-employer {
+  form .add-item {
     text-align: center;
     text-decoration: underline;
     font-style: italic;
     margin-top: 20px;
     margin-bottom: 20px;
     color: #939393; }
-  form .add-employer-text:hover {
+  form .add-item-text:hover {
     cursor: pointer;
     color: white;
     text-decoration: underline; }

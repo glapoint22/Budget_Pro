@@ -9,7 +9,7 @@
 </head>
 <body ng-app="account">
     <div ng-controller="AccountController as accountCtrl">
-        <form novalidate>
+        <form novalidate name="form">
             <h2>Create an account</h2>
             <hr/>
 
@@ -19,22 +19,23 @@
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" required>
+                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" autofocus="autofocus" required>
 
                     <!--Last Name-->
-                    <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name">
+                    <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name" required>
 
                     <!--Email-->
-                    <input class="control width-50 float-left" type="email" ng-model="accountCtrl.email" placeholder="Email">
+                    <input class="control width-50 float-left" type="email" name="email" ng-model="accountCtrl.email" placeholder="Email" required>
 
                     <!--Confirm Email-->
-                    <input class="control width-50 float-right" type="email" placeholder="Confirm Email">
+                    <input class="control width-50 float-right" type="email" name="confirmEmail" ng-model="accountCtrl.cEmail" placeholder="Confirm Email" required compare="accountCtrl.email">
+
 
                     <!--Password-->
-                    <input class="control width-50 float-left" type="password" ng-model="accountCtrl.pword" placeholder="Password">
+                    <input class="control width-50 float-left" type="password" ng-model="accountCtrl.pword" placeholder="Password" required>
 
                     <!--Confirm Password-->
-                    <input class="control width-50 float-right" type="password" placeholder="Confirm Password">
+                    <input class="control width-50 float-right" type="password" ng-model="accountCtrl.cPword" placeholder="Confirm Password" required>
 
                     <div style="clear:both" class="numbered-circle">2</div>
                     <div class="section-text">Employers</div>
@@ -42,7 +43,8 @@
 
                 <!--Employers-->
                <item-sets item="accountCtrl.employers" controller="accountCtrl" item-text="accountCtrl.employerText" add-item="accountCtrl.addEmployer"></item-sets>
-                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1)">Next</button>
+                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1, form.$valid)">Next</button>
+                
             </div>
 
             <div ng-show="accountCtrl.screenIndex === 1">
@@ -52,10 +54,10 @@
                 <!--Envelopes-->
                 <item-sets item="accountCtrl.envelopes" controller="accountCtrl" item-text="accountCtrl.envelopeText" add-item="accountCtrl.addEnvelope"></item-sets>
 
+                <!--Previous and submit buttons-->
                 <button style="position:relative; top: 5px" ng-click="accountCtrl.setScreen(0)">Previous</button>
                 <button style="position:relative; left: 552px; top: 5px" ng-click="accountCtrl.submit()">Submit</button>
             </div>
-            
         </form>
     </div>
 
