@@ -10,6 +10,7 @@
 <body ng-app="account">
     <div ng-controller="AccountController as accountCtrl">
         <form novalidate name="form">
+            
             <h2>Create an account</h2>
             <hr/>
 
@@ -19,23 +20,31 @@
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" autofocus="autofocus" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="firstName" class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" autofocus="autofocus" required>
 
                     <!--Last Name-->
-                    <input class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="lastName" class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name" required>
 
                     <!--Email-->
-                    <input class="control width-50 float-left" type="email" name="email" ng-model="accountCtrl.email" placeholder="Email" required>
-
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="email" name="email" ng-model="accountCtrl.email" placeholder="Email" required>
+                    <div ng-show="(form.email.$error.required || form.email.$error.email) && (form.email.$touched || form.$submitted)" style="top: 157px; left:-247px" class="message-bubble message-arrow-right">This is not a valid email address</div>
                     <!--Confirm Email-->
-                    <input class="control width-50 float-right" type="email" name="confirmEmail" ng-model="accountCtrl.cEmail" placeholder="Confirm Email" required compare="accountCtrl.email">
-
-
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="email" name="confirmEmail" ng-model="accountCtrl.cEmail" placeholder="Confirm Email" required confirm="accountCtrl.email">
+                    <div ng-show="form.confirmEmail.$error.confirm && form.confirmEmail.$touched && !form.email.$error.email" style="top: 157px; left:725px" class="message-bubble message-arrow-left">Emails must match</div>
+                    
                     <!--Password-->
-                    <input class="control width-50 float-left" type="password" ng-model="accountCtrl.pword" placeholder="Password" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="password" name="password" ng-model="accountCtrl.pword" placeholder="Password" required password>
+                    <div ng-show="form.password.$error.password && (form.password.$touched || form.$submitted)" style="top: 205px; left:-426px" class="password-bubble message-arrow-right">
+                        <ul>
+                            <li>Use 8-16 Characters</li>
+                            <li>Use at least one number and one alphabetic character.</li>
+                            <li>Don't use a password that is similar to your name.</li>
+                        </ul>
+                    </div>
 
                     <!--Confirm Password-->
-                    <input class="control width-50 float-right" type="password" ng-model="accountCtrl.cPword" placeholder="Confirm Password" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="password" name="confirmPassword" ng-model="accountCtrl.cPword" placeholder="Confirm Password" required confirm="accountCtrl.pword" >
+                    <div ng-show="form.confirmPassword.$error.confirm && form.confirmPassword.$touched && !form.password.$error.password" style="top: 205px; left:725px" class="message-bubble message-arrow-left">Passwords must match</div>
 
                     <div style="clear:both" class="numbered-circle">2</div>
                     <div class="section-text">Employers</div>
@@ -43,7 +52,7 @@
 
                 <!--Employers-->
                <item-sets item="accountCtrl.employers" controller="accountCtrl" item-text="accountCtrl.employerText" add-item="accountCtrl.addEmployer"></item-sets>
-                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1, form.$valid)">Next</button>
+                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1)">Next</button>
                 
             </div>
 
@@ -56,7 +65,7 @@
 
                 <!--Previous and submit buttons-->
                 <button style="position:relative; top: 5px" ng-click="accountCtrl.setScreen(0)">Previous</button>
-                <button style="position:relative; left: 552px; top: 5px" ng-click="accountCtrl.submit()">Submit</button>
+                <button type="submit" style="position:relative; left: 552px; top: 5px" ng-click="accountCtrl.submit()">Submit</button>
             </div>
         </form>
     </div>

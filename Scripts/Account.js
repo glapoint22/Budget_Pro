@@ -176,11 +176,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
         { id: 11, name: 'December' }];
     ctrl.screenIndex = 0;
 
-    ctrl.setScreen = function (index, valid) {
-        if (!valid) {
-            alert("Form not valid!");
-            return;
-        }
+    ctrl.setScreen = function (index) {
         ctrl.screenIndex = index;
     }
 
@@ -199,7 +195,7 @@ angular.module('account', []).controller('AccountController', ['$http', function
         }
 
 
-        $http.get('Account.asmx/CreateAccount', config);
+        //$http.get('Account.asmx/CreateAccount', config);
     }
 }])
 .directive('itemSets', function () {
@@ -214,24 +210,46 @@ angular.module('account', []).controller('AccountController', ['$http', function
         templateUrl: 'item-set.html'
     };
 })
-.directive('compare', function () {
+.directive('confirm', function () {
     return {
         require: 'ngModel',
         scope: {
-            compare: '='
+            confirm: '='
         },
         link: function (scope, elm, attrs, ctrl) {
-            ctrl.$validators.compare = function (modelValue) {
-                return modelValue === scope.compare;
+            ctrl.$validators.confirm = function (modelValue) {
+                return modelValue === scope.confirm;
 
             };
 
-            scope.$watch("compare", function () {
+            scope.$watch("confirm", function () {
                 ctrl.$validate();
             });
+
+
+        }
+    }
+})
+.directive('password', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$validators.password = function (modelValue) {
+                var regex = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16})$/
+
+                if (regex.test(modelValue)) {
+                    // it is valid
+                    return true;
+                }
+
+                // it is invalid
+                return false;
+
+            };
 
             
         }
     }
 });
+
 

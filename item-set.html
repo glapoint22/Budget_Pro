@@ -17,8 +17,8 @@
 
             <!--Name & currency text boxes-->
             <div class="flex-container">
-                <input class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}">
-                <input ng-hide="currentItem.type === 1" class="control flex-control" type="text" ng-model="currentItem.currency" placeholder="{{itemText.currency}}">
+                <input class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}" required>
+                <input ng-if="currentItem.type === 0" class="control flex-control" type="number" step="0.01" ng-model="currentItem.currency" placeholder="{{itemText.currency}}" required>
             </div>
 
 

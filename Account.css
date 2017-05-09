@@ -121,4 +121,67 @@ form {
   form ::-webkit-scrollbar-thumb {
     background: #464a53;
     border: 1px solid #868686; }
+  form .message-arrow-right:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -16px;
+    top: 5px;
+    border: 8px solid;
+    border-color: #9a9a9a transparent transparent #9a9a9a; }
+  form .message-arrow-right:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -14px;
+    top: 6px;
+    border: 7px solid;
+    border-color: #14161d transparent transparent #14161d; }
+  form .message-arrow-left:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -16px;
+    right: auto;
+    top: 5px;
+    border: 8px solid;
+    border-color: #9a9a9a #9a9a9a transparent transparent; }
+  form .message-arrow-left:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -14px;
+    right: auto;
+    top: 6px;
+    border: 7px solid;
+    border-color: #14161d #14161d transparent transparent; }
+  form .message-bubble {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background-color: #14161d;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    color: #a3a3a3;
+    border: 1px solid #9a9a9a;
+    display: inline-table; }
+  form .password-bubble {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background-color: #14161d;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 0px 10px 0px 0px;
+    color: #b1b1b1;
+    border: 1px solid #9a9a9a; }
 
