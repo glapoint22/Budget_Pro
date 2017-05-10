@@ -184,4 +184,6 @@ form {
     padding: 0px 10px 0px 0px;
     color: #b1b1b1;
     border: 1px solid #9a9a9a; }
+  form ul {
+    padding-left: 25px; }
 

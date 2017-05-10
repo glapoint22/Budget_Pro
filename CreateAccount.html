@@ -5,67 +5,71 @@
 	<meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="Scripts/Account.js"></script>
+    <script src="Scripts/Period.js"></script>
     <link href="Account.css" rel="stylesheet" />
 </head>
 <body ng-app="account">
-    <div ng-controller="AccountController as accountCtrl">
+    <div ng-controller="AccountController as ctrl">
         <form novalidate name="form">
-            
             <h2>Create an account</h2>
             <hr/>
 
-            <div ng-show="accountCtrl.screenIndex === 0">
+            <div ng-show="ctrl.screenIndex === 0">
                 <!--User Info-->
                 <div class="numbered-circle">1</div>
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="firstName" class="control width-50 float-left" type="text" ng-model="accountCtrl.fname" placeholder="First Name" autofocus="autofocus" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="firstName" class="control width-50 float-left" type="text" ng-model="ctrl.fname" placeholder="First Name" autofocus="autofocus" required>
+                    <div ng-show="form.firstName.$error.required && (form.firstName.$touched || form.$submitted)" style="top: 110px; left: -180px" class="message-bubble message-arrow-right">First name is required</div>
 
                     <!--Last Name-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="lastName" class="control width-50 float-right" type="text" ng-model="accountCtrl.lname" placeholder="Last Name" required>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" name="lastName" class="control width-50 float-right" type="text" ng-model="ctrl.lname" placeholder="Last Name" required>
+                    <div ng-show="form.lastName.$error.required && (form.lastName.$touched || form.$submitted)" style="top: 110px; right: -177px" class="message-bubble message-arrow-left">Last name is required</div>
 
                     <!--Email-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="email" name="email" ng-model="accountCtrl.email" placeholder="Email" required>
+                    <input ng-model-options="{ allowInvalid: true}" ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="email" name="email" ng-model="ctrl.email" placeholder="Email" required>
                     <div ng-show="(form.email.$error.required || form.email.$error.email) && (form.email.$touched || form.$submitted)" style="top: 157px; left:-247px" class="message-bubble message-arrow-right">This is not a valid email address</div>
+                    
+                    
                     <!--Confirm Email-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="email" name="confirmEmail" ng-model="accountCtrl.cEmail" placeholder="Confirm Email" required confirm="accountCtrl.email">
-                    <div ng-show="form.confirmEmail.$error.confirm && form.confirmEmail.$touched && !form.email.$error.email" style="top: 157px; left:725px" class="message-bubble message-arrow-left">Emails must match</div>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="email" name="confirmEmail" ng-model="ctrl.cEmail" placeholder="Confirm Email" required confirm="ctrl.email">
+                    <div ng-show="form.confirmEmail.$error.confirm && form.confirmEmail.$touched" style="top: 157px; left:725px" class="message-bubble message-arrow-left">Emails must match</div>
                     
                     <!--Password-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="password" name="password" ng-model="accountCtrl.pword" placeholder="Password" required password>
-                    <div ng-show="form.password.$error.password && (form.password.$touched || form.$submitted)" style="top: 205px; left:-426px" class="password-bubble message-arrow-right">
+                    <input ng-model-options="{ allowInvalid: true}" ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-left" type="password" name="password" ng-model="ctrl.pword" placeholder="Password" required password>
+                    <div ng-show="form.password.$error.password && (form.password.$touched || form.$submitted)" style="top: 205px; left:-409px" class="password-bubble message-arrow-right">
                         <ul>
                             <li>Use 8-16 Characters</li>
-                            <li>Use at least one number and one alphabetic character.</li>
-                            <li>Don't use a password that is similar to your name.</li>
+                            <li>Use at least one number and one alphabetic character</li>
+                            <li>Don't use a password that is similar to your name</li>
                         </ul>
                     </div>
 
                     <!--Confirm Password-->
-                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="password" name="confirmPassword" ng-model="accountCtrl.cPword" placeholder="Confirm Password" required confirm="accountCtrl.pword" >
-                    <div ng-show="form.confirmPassword.$error.confirm && form.confirmPassword.$touched && !form.password.$error.password" style="top: 205px; left:725px" class="message-bubble message-arrow-left">Passwords must match</div>
+                    <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}" class="control width-50 float-right" type="password" name="confirmPassword" ng-model="ctrl.cPword" placeholder="Confirm Password" required confirm="ctrl.pword" >
+                    <div ng-show="form.confirmPassword.$error.confirm && form.confirmPassword.$touched" style="top: 205px; left:725px" class="message-bubble message-arrow-left">Passwords must match</div>
 
                     <div style="clear:both" class="numbered-circle">2</div>
                     <div class="section-text">Employers</div>
                 </div>
 
                 <!--Employers-->
-               <item-sets item="accountCtrl.employers" controller="accountCtrl" item-text="accountCtrl.employerText" add-item="accountCtrl.addEmployer"></item-sets>
-                <button style="position:relative; left: 638px; top: 5px" ng-click="accountCtrl.setScreen(1)">Next</button>
+               <item-sets item="ctrl.employers" item-text="ctrl.employerText" add-item="ctrl.addEmployer()" form="form"></item-sets>
+                <button style="position:relative; left: 638px; top: 5px" ng-click="ctrl.setScreen(1)">Next</button>
                 
             </div>
 
-            <div ng-show="accountCtrl.screenIndex === 1">
+            <div ng-show="ctrl.screenIndex === 1">
                 <div class="numbered-circle">3</div>
                 <div class="section-text">Envelopes</div>
 
                 <!--Envelopes-->
-                <item-sets item="accountCtrl.envelopes" controller="accountCtrl" item-text="accountCtrl.envelopeText" add-item="accountCtrl.addEnvelope"></item-sets>
+                <item-sets item="ctrl.envelopes" item-text="ctrl.envelopeText" add-item="ctrl.addEnvelope()" form="form"></item-sets>
 
                 <!--Previous and submit buttons-->
-                <button style="position:relative; top: 5px" ng-click="accountCtrl.setScreen(0)">Previous</button>
-                <button type="submit" style="position:relative; left: 552px; top: 5px" ng-click="accountCtrl.submit()">Submit</button>
+                <button style="position:relative; top: 5px" ng-click="ctrl.setScreen(0)">Previous</button>
+                <button type="submit" style="position:relative; left: 552px; top: 5px" ng-click="ctrl.submit()">Submit</button>
             </div>
         </form>
     </div>
