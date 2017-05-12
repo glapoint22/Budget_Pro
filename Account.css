@@ -186,4 +186,7 @@ form {
     border: 1px solid #9a9a9a; }
   form ul {
     padding-left: 25px; }
+  form .error-text {
+    color: red;
+    margin-right: 15px; }
 

@@ -3,9 +3,6 @@
 var app = angular.module('account', []).controller('AccountController', ['$http', 'period', function ($http, period) {
     var ctrl = this;
 
-
-    ctrl.form;
-
     //Account user info
     ctrl.fname = '';
     ctrl.lname = '';
@@ -18,6 +15,21 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.employers = [new budgetItem()];
     ctrl.addEmployer = function () {
         ctrl.employers.push(new budgetItem());
+    };
+
+    ctrl.removeEmployer = function (index) {
+        var temp = [];
+
+        //Make sure there is at least one employer
+        if (ctrl.employers.length === 1) {
+            alert('You need at least one employer.');
+            return;
+        }
+
+        //Remove the employer based on the index passed in
+        angular.copy(ctrl.employers, temp);
+        temp.splice(index, 1);
+        angular.copy(temp, ctrl.employers);
     };
 
     ctrl.employerText = new itemText('Employer',
@@ -33,7 +45,9 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                                     'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:',
                                     'This employer pays me every month on the:',
                                     'This employer pays me every year on:',
-                                    'Click to add an employer'
+                                    'Click to add an employer',
+                                    'employer',
+                                    'netPay'
                                     );
 
 
@@ -43,6 +57,9 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.envelopes = [new budgetItem()];
     ctrl.addEnvelope = function () {
         ctrl.envelopes.push(new budgetItem());
+    };
+    ctrl.removeEnvelope = function (index) {
+        console.log(index);
     };
 
     ctrl.envelopeText = new itemText('Envelope',
@@ -58,12 +75,14 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                                     'Enter a date when this envelope has been withdrawn:',
                                     'This envelope gets withdrawn every month on the:',
                                     'This envelope gets withdrawn every year on:',
-                                    'Click to add an envelope'
+                                    'Click to add an envelope',
+                                    'envelope',
+                                    'amount'
                                     );
 
 
 
-    function itemText(legend, height, radioTitle, radio1, radio2, name, currency, frequency, weekly, biWeekly, periodStart, monthly, annually, add) {
+    function itemText(legend, height, radioTitle, radio1, radio2, name, currency, frequency, weekly, biWeekly, periodStart, monthly, annually, add, itemName, currencyName) {
         return {
             legend: legend,
             height: height,
@@ -78,7 +97,9 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             periodStart: periodStart,
             monthly: monthly,
             annually: annually,
-            add: add
+            add: add,
+            itemName: itemName,
+            currencyName: currencyName
         }
     }
 
@@ -93,7 +114,7 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
 
 
-    
+
 
     //frequency
     ctrl.frequency = period.frequency;
@@ -117,7 +138,12 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
 
     //Submit the form
-    ctrl.submit = function () {
+    ctrl.submit = function (formValid) {
+        if (!formValid) {
+            alert('Please correct any errors on this form.');
+            return;
+        }
+
         var config = {
             params: {
                 user: {
@@ -144,6 +170,7 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             items: '=item',
             itemText: '=',
             addItem: '&',
+            removeItem: '=',
             form: '='
         },
         templateUrl: 'item-set.html'
@@ -184,6 +211,22 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             };
         }
     }
+})
+.directive('setName', function () {
+    return {
+        scope: {
+            setName: '@',
+            nameIndex: '@',
+            numItems: '@',
+        },
+        link: function (scope, elm, attrs) {
+            scope.$watch("numItems", function () {
+                attrs.$set('name', scope.setName + scope.nameIndex);
+            });
+
+        }
+    }
 });
+
 
 

@@ -5,7 +5,7 @@
             <legend>{{itemText.legend}} {{$index + 1}}:</legend>
 
             <!--Remove-->
-            <div class="remove-text">Remove</div>
+            <div ng-click="removeItem($index)" class="remove-text">Remove</div>
 
 
             <!--Type-->
@@ -17,12 +17,16 @@
 
             <!--Name & currency text boxes-->
             <div class="flex-container">
-                <input name="name" class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}" required>
-                <input ng-if="currentItem.type === 0" class="control flex-control" type="number" step="0.01" ng-model="currentItem.currency" placeholder="{{itemText.currency}}" required>
+                <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}"  class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}" required set-name="{{itemText.itemName}}" name-index="{{$index}}" num-items="{{items.length}}">
+                <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}"  ng-if="currentItem.type === 0" class="control flex-control" type="number" step="0.01" ng-model="currentItem.currency" placeholder="{{itemText.currency}}" required set-name="{{itemText.currencyName}}" name-index="{{$index}}" num-items="{{items.length}}">
             </div>
-            <div ng-show="form.name.$error.required && (form.name.$touched || form.$submitted)" style="color: red">*{{itemText.name}} is required</div>
+
             
-            <div ng-show="currentItem.type === 0">
+            <!--Required messages-->
+            <span ng-show="form.{{itemText.itemName + $index}}.$error.required && (form.{{itemText.itemName + $index}}.$touched || form.$submitted)" class="float-left error-text">*{{itemText.name}} is required</span>
+            <span ng-show="form.{{itemText.currencyName + $index}}.$error.required && (form.{{itemText.currencyName + $index}}.$touched || form.$submitted)" class="float-right error-text">*{{itemText.currency}} is required</span>
+
+            <div style="clear: both" ng-show="currentItem.type === 0">
                 <!--Pay Period Frequency-->
                 <div align="center">
                     {{itemText.frequency}}
@@ -31,8 +35,6 @@
                     </select>
                 </div>
 
-
-
                 <div align="center">
                     <!--Weekly & Bi-Weekly-->
                     <span ng-show="currentItem.period.frequency === 1">{{itemText.weekly}}</span>
@@ -40,9 +42,6 @@
                     <select class="control" ng-model="currentItem.period.dayOfWeek" ng-show="currentItem.period.frequency === 1 || currentItem.period.frequency === 2">
                         <option ng-repeat="day in ctrl.daysOfWeek" ng-value="day.id">{{day.name}}</option>
                     </select>
-
-
-
 
                     <!--Semi-Monthly & Monthly-->
                     <span ng-show="currentItem.period.frequency === 3 || currentItem.period.frequency === 4">{{itemText.monthly}}</span>
@@ -88,8 +87,6 @@
                 </div>
             </div>
         </fieldset>
-
-
     </div>
     <!--Add Item-->
     <div class="add-item" ng-click="addItem()"> <span class="add-item-text">{{itemText.add}}</span></div>
