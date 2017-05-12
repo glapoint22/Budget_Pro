@@ -5,8 +5,7 @@
             <legend>{{itemText.legend}} {{$index + 1}}:</legend>
 
             <!--Remove-->
-            <div ng-click="removeItem($index)" class="remove-text">Remove</div>
-
+            <div ng-click="ctrl.removeItem($index, items, itemText.itemName)" class="remove-text">Remove</div>
 
             <!--Type-->
             <div class="radio-group">
@@ -17,14 +16,14 @@
 
             <!--Name & currency text boxes-->
             <div class="flex-container">
-                <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}"  class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}" required set-name="{{itemText.itemName}}" name-index="{{$index}}" num-items="{{items.length}}">
-                <input ng-class="{'ng-touched': form.$submitted, 'ng-untouched': !form.$submitted}"  ng-if="currentItem.type === 0" class="control flex-control" type="number" step="0.01" ng-model="currentItem.currency" placeholder="{{itemText.currency}}" required set-name="{{itemText.currencyName}}" name-index="{{$index}}" num-items="{{items.length}}">
+                <input class="control flex-control" ng-model="currentItem.name" placeholder="{{itemText.name}}" required set-name="{{itemText.itemName}}" name-index="{{$index}}" num-items="{{items.length}}">
+                <input ng-if="currentItem.type === 0" class="control flex-control" type="number" step="0.01" ng-model="currentItem.currency" placeholder="{{itemText.currency}}" required set-name="{{itemText.currencyName}}" name-index="{{$index}}" num-items="{{items.length}}">
             </div>
 
             
             <!--Required messages-->
-            <span ng-show="form.{{itemText.itemName + $index}}.$error.required && (form.{{itemText.itemName + $index}}.$touched || form.$submitted)" class="float-left error-text">*{{itemText.name}} is required</span>
-            <span ng-show="form.{{itemText.currencyName + $index}}.$error.required && (form.{{itemText.currencyName + $index}}.$touched || form.$submitted)" class="float-right error-text">*{{itemText.currency}} is required</span>
+            <span ng-show="form.{{itemText.itemName + $index}}.$error.required && form.{{itemText.itemName + $index}}.$touched" class="float-left error-text">*{{itemText.name}} is required</span>
+            <span ng-show="form.{{itemText.currencyName + $index}}.$error.required && form.{{itemText.currencyName + $index}}.$touched" class="float-right error-text">*{{itemText.currency}} is required</span>
 
             <div style="clear: both" ng-show="currentItem.type === 0">
                 <!--Pay Period Frequency-->
@@ -89,5 +88,5 @@
         </fieldset>
     </div>
     <!--Add Item-->
-    <div class="add-item" ng-click="addItem()"> <span class="add-item-text">{{itemText.add}}</span></div>
+    <div class="add-item" ng-click="ctrl.addItem(items)"> <span class="add-item-text">{{itemText.add}}</span></div>
 </div>

@@ -11,27 +11,29 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.pword = '';
     ctrl.cPword = '';
 
-    //Employers
-    ctrl.employers = [new budgetItem()];
-    ctrl.addEmployer = function () {
-        ctrl.employers.push(new budgetItem());
+    ctrl.addItem = function (item) {
+        //Add another item to the array
+        item.push(new budgetItem());
     };
 
-    ctrl.removeEmployer = function (index) {
+    ctrl.removeItem = function (index, item, name) {
         var temp = [];
 
-        //Make sure there is at least one employer
-        if (ctrl.employers.length === 1) {
-            alert('You need at least one employer.');
+        //Make sure there is at least one item
+        if (item.length === 1) {
+            alert('You need at least one ' + name + '.');
             return;
         }
 
-        //Remove the employer based on the index passed in
-        angular.copy(ctrl.employers, temp);
+        //Remove the item based on the index passed in
+        angular.copy(item, temp);
         temp.splice(index, 1);
-        angular.copy(temp, ctrl.employers);
+        angular.copy(temp, item);
     };
 
+
+    //Employers
+    ctrl.employers = [new budgetItem()];
     ctrl.employerText = new itemText('Employer',
                                     500,
                                     'Income Type:',
@@ -55,13 +57,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
     //Envelopes
     ctrl.envelopes = [new budgetItem()];
-    ctrl.addEnvelope = function () {
-        ctrl.envelopes.push(new budgetItem());
-    };
-    ctrl.removeEnvelope = function (index) {
-        console.log(index);
-    };
-
     ctrl.envelopeText = new itemText('Envelope',
                                     671,
                                     'Envelope Type:',
@@ -112,10 +107,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
         }
     }
 
-
-
-
-
     //frequency
     ctrl.frequency = period.frequency;
 
@@ -128,22 +119,31 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     //Months
     ctrl.months = period.months;
 
-
-
+    //Screen
     ctrl.screenIndex = 0;
-
     ctrl.setScreen = function (index) {
         ctrl.screenIndex = index;
     }
 
 
     //Submit the form
-    ctrl.submit = function (formValid) {
-        if (!formValid) {
+    ctrl.submit = function (form) {
+        //First check to see if all fields on the form are correctly filled out
+        if (!form.$valid) {
+            //Loop through each control and set it as touched.
+            //Any control not filled out will show an error
+            angular.forEach(form.$$controls, function (control) {
+                if (control.$validators.required) {
+                    control.$setTouched();
+                }
+            });
+
+            //Show a message stating to fix errors
             alert('Please correct any errors on this form.');
             return;
         }
 
+        //Submit the form
         var config = {
             params: {
                 user: {
@@ -156,8 +156,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 envelopes: ctrl.envelopes
             }
         }
-
-
         //$http.get('Account.asmx/CreateAccount', config);
     }
 }])
@@ -167,10 +165,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
         controller: 'AccountController',
         controllerAs: 'ctrl',
         scope: {
-            items: '=item',
+            items: '=',
             itemText: '=',
-            addItem: '&',
-            removeItem: '=',
             form: '='
         },
         templateUrl: 'item-set.html'
@@ -199,6 +195,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
         link: function (scope, elm, attrs, ngModelController) {
             ngModelController.$validators.password = function (modelValue) {
                 var regex = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16})$/
+                //Password is empty
+                if (modelValue === '' || modelValue === undefined) return true;
 
                 //Password is valid
                 if (regex.test(modelValue)) {
@@ -207,7 +205,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
                 // password is not valid
                 return false;
-
             };
         }
     }
