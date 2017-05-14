@@ -1,0 +1,53 @@
+@import 'account';
+
+body {
+    background-color: #3c3c3c;
+}
+
+.control{
+    background-color: #151515;
+    color: #e6e6e6;
+    border: 1px solid #828282;
+    font-size: 14px;
+    text-indent: 5px;
+    height: 28px;
+    margin: 5px 0px 10px 0px;
+    &.ng-invalid.ng-touched{
+        border-color: red;
+        outline: none;
+    }
+}
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+button{
+    background-color: #32475b;
+    border: none;
+    color: #bababa;
+    font-size: 14px;
+}
+
+button:hover{
+    background-color: #506f8d;
+    cursor: pointer;
+    color:#ffffff;
+}
+
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+::-webkit-scrollbar-track{
+    background: #151515;
+    border: 1px solid #333232;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #464a53;
+    border: 1px solid #868686;
+}

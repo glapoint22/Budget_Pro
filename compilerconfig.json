@@ -1,11 +1,15 @@
-﻿[
+[
   {
-    "outputFile": "Scripts/Envelopes.js",
-    "inputFile": "Scripts/Envelopes.js"
+    "outputFile": "Scripts/account.js",
+    "inputFile": "Scripts/_account.js"
   },
   {
-    "outputFile": "BudgetPro.css",
-    "inputFile": "BudgetPro.scss"
+    "outputFile": "Scripts/period.js",
+    "inputFile": "Scripts/_period.js"
+  },
+  {
+    "outputFile": "budget-pro.css",
+    "inputFile": "budget-pro.scss"
   },
   {
     "outputFile": "Account.css",

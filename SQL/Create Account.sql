@@ -69,9 +69,26 @@ delete Period
 delete Envelopes
 delete Users
 
+
+
+
+CREATE TABLE Users
+(
+	ID UNIQUEIDENTIFIER,
+	FirstName VARCHAR(30) NOT NULL,
+	LastName VARCHAR(30) NOT NULL,
+	Email VARCHAR(30) NOT NULL,
+	Password VARCHAR(30) NOT NULL,
+	PRIMARY KEY (ID),
+	CONSTRAINT UC_Email UNIQUE(Email)
+)
+
+
+
+
 create table Envelopes
 (
-	EnvelopeID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+	ID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
 	Name VARCHAR(30) NOT NULL,
 	EnvelopeType int NOT NULL,
 	Amount float NOT NULL,
@@ -82,6 +99,34 @@ create table Envelopes
 
 
 
+create table Employers
+(
+	ID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+	Name VARCHAR(30) NOT NULL,
+	IncomeType int NOT NULL,
+	NetPay float NOT NULL,
+	UserID UNIQUEIDENTIFIER NOT NULL,
+	FOREIGN KEY (UserID) REFERENCES Users(ID)
+)
+
+create table Period
+(
+	Frequency int null,
+	DayOfWeek int null,
+	DayOfMonth1 int null,
+	DayOfMonth2 int null,
+	Month1 int null,
+	Month2 int null,
+	PeriodStart date null,
+	EmployerID UNIQUEIDENTIFIER null,
+	EnvelopeID UNIQUEIDENTIFIER null,
+	FOREIGN KEY (EmployerID) REFERENCES Employers(ID),
+	FOREIGN KEY (EnvelopeID) REFERENCES Envelopes(ID)
+)
+
+
+use master
+select * from sysmessages
 
 
 

@@ -157,19 +157,19 @@ public class Account : WebService
             //Employers
             for (int i = 0; i < employers.Length; i++)
             {
-                Employer employer = js.Deserialize<Employer>(employers[i]);
+                BudgetItem employer = js.Deserialize<BudgetItem>(employers[i]);
                 row = listTable.NewRow();
                 row["ID"] = Guid.NewGuid();
                 row["name"] = employer.name;
-                row["type"] = employer.incomeType;
-                row["currency"] = employer.netPay;
-                row["freq"] = employer.payPeriod.frequency;
-                row["dayOfWeek"] = employer.payPeriod.dayOfWeek;
-                row["dayOfMonth1"] = employer.payPeriod.dayOfMonth1;
-                row["dayOfMonth2"] = employer.payPeriod.dayOfMonth2;
-                row["month1"] = employer.payPeriod.month1;
-                row["month2"] = employer.payPeriod.month2;
-                row["periodStart"] = employer.payPeriod.periodStart;
+                row["type"] = employer.type;
+                row["currency"] = employer.currency;
+                row["freq"] = employer.period.frequency;
+                row["dayOfWeek"] = employer.period.dayOfWeek;
+                row["dayOfMonth1"] = employer.period.dayOfMonth1;
+                row["dayOfMonth2"] = employer.period.dayOfMonth2;
+                row["month1"] = employer.period.month1;
+                row["month2"] = employer.period.month2;
+                row["periodStart"] = employer.period.periodStart;
                 row["listType"] = 0;
                 listTable.Rows.Add(row);
             }
@@ -182,19 +182,19 @@ public class Account : WebService
             //Envelopes
             for (int i = 0; i < envelopes.Length; i++)
             {
-                Envelope envelope = js.Deserialize<Envelope>(envelopes[i]);
+                BudgetItem envelope = js.Deserialize<BudgetItem>(envelopes[i]);
                 row = listTable.NewRow();
                 row["ID"] = Guid.NewGuid();
                 row["name"] = envelope.name;
-                row["type"] = envelope.envelopeType;
-                row["currency"] = envelope.amount;
-                row["freq"] = envelope.withdrawPeriod.frequency;
-                row["dayOfWeek"] = envelope.withdrawPeriod.dayOfWeek;
-                row["dayOfMonth1"] = envelope.withdrawPeriod.dayOfMonth1;
-                row["dayOfMonth2"] = envelope.withdrawPeriod.dayOfMonth2;
-                row["month1"] = envelope.withdrawPeriod.month1;
-                row["month2"] = envelope.withdrawPeriod.month2;
-                row["periodStart"] = envelope.withdrawPeriod.periodStart;
+                row["type"] = envelope.type;
+                row["currency"] = envelope.currency;
+                row["freq"] = envelope.period.frequency;
+                row["dayOfWeek"] = envelope.period.dayOfWeek;
+                row["dayOfMonth1"] = envelope.period.dayOfMonth1;
+                row["dayOfMonth2"] = envelope.period.dayOfMonth2;
+                row["month1"] = envelope.period.month1;
+                row["month2"] = envelope.period.month2;
+                row["periodStart"] = envelope.period.periodStart;
                 row["listType"] = 1;
                 listTable.Rows.Add(row);
             }
@@ -202,10 +202,27 @@ public class Account : WebService
             listParams.SqlDbType = SqlDbType.Structured;
 
 
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    Context.Response.StatusCode = 500;
+                    Context.Response.StatusDescription = "The email address you entered is already regestered.";
+                    Context.Response.Write(ex.Message);
+                }
+                
+                
+            }
+            finally
+            {
+                con.Close();
+            }
 
-            cmd.ExecuteNonQuery();
-
-            con.Close();
+            
         }
     }
 }

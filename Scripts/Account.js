@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 var app = angular.module('account', []).controller('AccountController', ['$http', 'period', function ($http, period) {
     var ctrl = this;
@@ -31,51 +31,13 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
         angular.copy(temp, item);
     };
 
-
     //Employers
     ctrl.employers = [new budgetItem()];
-    ctrl.employerText = new itemText('Employer',
-                                    500,
-                                    'Income Type:',
-                                    'Fixed Income',
-                                    'Variable Income',
-                                    'Employer Name',
-                                    'Net Pay',
-                                    'Pay Period Frequency:',
-                                    'This employer pays me every week on:',
-                                    'This employer pays me every other week on:',
-                                    'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:',
-                                    'This employer pays me every month on the:',
-                                    'This employer pays me every year on:',
-                                    'Click to add an employer',
-                                    'employer',
-                                    'netPay'
-                                    );
-
-
-
+    ctrl.employerText = new itemText('Employer', 500, 'Income Type:', 'Fixed Income', 'Variable Income', 'Employer Name', 'Net Pay', 'Pay Period Frequency:', 'This employer pays me every week on:', 'This employer pays me every other week on:', 'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:', 'This employer pays me every month on the:', 'This employer pays me every year on:', 'Click to add an employer', 'employer', 'netPay');
 
     //Envelopes
     ctrl.envelopes = [new budgetItem()];
-    ctrl.envelopeText = new itemText('Envelope',
-                                    671,
-                                    'Envelope Type:',
-                                    'Dynamic',
-                                    'Static',
-                                    'Envelope Name',
-                                    'Amount',
-                                    'Withdraw Frequency:',
-                                    'This envelope gets withdrawn every week on:',
-                                    'This envelope gets withdrawn every other week on:',
-                                    'Enter a date when this envelope has been withdrawn:',
-                                    'This envelope gets withdrawn every month on the:',
-                                    'This envelope gets withdrawn every year on:',
-                                    'Click to add an envelope',
-                                    'envelope',
-                                    'amount'
-                                    );
-
-
+    ctrl.envelopeText = new itemText('Envelope', 671, 'Envelope Type:', 'Dynamic', 'Static', 'Envelope Name', 'Amount', 'Withdraw Frequency:', 'This envelope gets withdrawn every week on:', 'This envelope gets withdrawn every other week on:', 'Enter a date when this envelope has been withdrawn:', 'This envelope gets withdrawn every month on the:', 'This envelope gets withdrawn every year on:', 'Click to add an envelope', 'envelope', 'amount');
 
     function itemText(legend, height, radioTitle, radio1, radio2, name, currency, frequency, weekly, biWeekly, periodStart, monthly, annually, add, itemName, currencyName) {
         return {
@@ -95,7 +57,7 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             add: add,
             itemName: itemName,
             currencyName: currencyName
-        }
+        };
     }
 
     function budgetItem() {
@@ -104,7 +66,7 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             type: 0,
             currency: undefined,
             period: period.setPeriod(0, 0, 1, 31, 0, 11, new Date())
-        }
+        };
     }
 
     //frequency
@@ -123,8 +85,7 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.screenIndex = 0;
     ctrl.setScreen = function (index) {
         ctrl.screenIndex = index;
-    }
-
+    };
 
     //Submit the form
     ctrl.submit = function (form) {
@@ -155,11 +116,12 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 employers: ctrl.employers,
                 envelopes: ctrl.envelopes
             }
-        }
-        //$http.get('Account.asmx/CreateAccount', config);
-    }
-}])
-.directive('itemSets', function () {
+        };
+        $http.get('Account.asmx/CreateAccount', config).then(function successCallback(response) {}, function errorCallback(response) {
+            alert(response.statusText);
+        });
+    };
+}]).directive('itemSets', function () {
     return {
         restrict: 'E',
         controller: 'AccountController',
@@ -171,14 +133,13 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
         },
         templateUrl: 'item-set.html'
     };
-})
-.directive('confirm', function () {
+}).directive('confirm', function () {
     return {
         require: 'ngModel',
         scope: {
             confirm: '='
         },
-        link: function (scope, elm, attrs, ngModelController) {
+        link: function link(scope, elm, attrs, ngModelController) {
             ngModelController.$validators.confirm = function (modelValue) {
                 return modelValue === scope.confirm;
             };
@@ -187,14 +148,13 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 ngModelController.$validate();
             });
         }
-    }
-})
-.directive('password', function () {
+    };
+}).directive('password', function () {
     return {
         require: 'ngModel',
-        link: function (scope, elm, attrs, ngModelController) {
+        link: function link(scope, elm, attrs, ngModelController) {
             ngModelController.$validators.password = function (modelValue) {
-                var regex = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16})$/
+                var regex = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16})$/;
                 //Password is empty
                 if (modelValue === '' || modelValue === undefined) return true;
 
@@ -207,23 +167,19 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 return false;
             };
         }
-    }
-})
-.directive('setName', function () {
+    };
+}).directive('setName', function () {
     return {
         scope: {
             setName: '@',
             nameIndex: '@',
-            numItems: '@',
+            numItems: '@'
         },
-        link: function (scope, elm, attrs) {
+        link: function link(scope, elm, attrs) {
             scope.$watch("numItems", function () {
                 attrs.$set('name', scope.setName + scope.nameIndex);
             });
-
         }
-    }
+    };
 });
-
-
 
