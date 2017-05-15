@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var app = angular.module('account', []).controller('AccountController', ['$http', 'period', function ($http, period) {
+var app = angular.module('account', []).controller('AccountController', ['$http', 'period', 'prompt', function ($http, period, prompt) {
     var ctrl = this;
 
     //Account user info
@@ -10,6 +10,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.cEmail = '';
     ctrl.pword = '';
     ctrl.cPword = '';
+
+    ctrl.p = prompt.show('Gumpy');
 
     ctrl.addItem = function (item) {
         //Add another item to the array
@@ -180,6 +182,14 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 attrs.$set('name', scope.setName + scope.nameIndex);
             });
         }
+    };
+}).directive('promptz', function () {
+    return {
+        restrict: 'E',
+        controller: 'AccountController',
+        controllerAs: 'ctrl',
+        scope: true,
+        template: '<div>{{ctrl.p.title}}</div>'
     };
 });
 

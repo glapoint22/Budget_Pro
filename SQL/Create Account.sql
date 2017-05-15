@@ -126,7 +126,7 @@ create table Period
 
 
 use master
-select * from sysmessages
+select * from sysmessages where msglangid = 1033
 
 
 

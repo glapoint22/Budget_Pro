@@ -208,13 +208,15 @@ public class Account : WebService
             }
             catch (SqlException ex)
             {
+                Context.Response.StatusCode = 500;
                 if (ex.Number == 2627)
                 {
-                    Context.Response.StatusCode = 500;
                     Context.Response.StatusDescription = "The email address you entered is already regestered.";
-                    Context.Response.Write(ex.Message);
                 }
-                
+                else
+                {
+                    Context.Response.StatusDescription = ex.Message;
+                }
                 
             }
             finally
