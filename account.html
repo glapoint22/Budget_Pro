@@ -10,7 +10,7 @@
     <link href="budget-pro.min.css" rel="stylesheet" />
 </head>
 <body ng-app="account">
-    <div ng-controller="AccountController as ctrl">
+    <div id="ctrl" ng-controller="AccountController as ctrl">
         <form novalidate name="form">
             <h2>Create an account</h2>
             <hr/>
@@ -78,21 +78,7 @@
             </div>
         </form>
     </div>
-    <promptz></promptz>
-    <!--<div style="background: rgba(0, 0, 0, 0.88); z-index: 1000; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center">
-        <div style="width: auto; height: auto; background-color: #1d212a; color: #dedede; border: 1px solid #808080; border-radius: 5px;">
-            <div style="background: #14161d; width: auto; height: 15px; border: 1px solid #4d5269; padding: 8px 0 8px 5px; margin-bottom: 20px; color: #858585">
-                Alert
-            </div>
-            <div style="padding: 0px 20px 0px 20px; color: #c7c7c7">
-                The email address you entered is already regestered.
-            </div>
-            <div style=" margin-top: 20px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center">
-                <button type="button" style="padding: 5px; margin: 0 10px 20px 10px; border-radius: 5px; background: #292b30; border: 1px solid #42485e">ok</button>
-                <button type="button" style="padding: 5px; margin: 0 10px 20px 10px; border-radius: 5px; background: #292b30; border: 1px solid #42485e">Cancel</button>
-            </div>
-            
-        </div>
-    </div>-->
+    
+    
 </body>
 </html>

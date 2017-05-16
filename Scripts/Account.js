@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var app = angular.module('account', []).controller('AccountController', ['$http', 'period', 'prompt', function ($http, period, prompt) {
+var app = angular.module('account', []).controller('AccountController', ['$http', 'period', '$compile', '$scope', function ($http, period, $compile, $scope) {
     var ctrl = this;
 
     //Account user info
@@ -11,9 +11,14 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     ctrl.pword = '';
     ctrl.cPword = '';
 
-    ctrl.p = prompt.show('Gumpy');
+    //ctrl.p = prompt.show('Gumpy');
 
     ctrl.addItem = function (item) {
+        var prompt = $compile('<prompt>')($scope.$parent);
+
+        //where do you want to place the new element?
+        angular.element(document.getElementById("ctrl")).append(prompt);
+
         //Add another item to the array
         item.push(new budgetItem());
     };
@@ -183,13 +188,10 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             });
         }
     };
-}).directive('promptz', function () {
+}).directive('prompt', function () {
     return {
         restrict: 'E',
-        controller: 'AccountController',
-        controllerAs: 'ctrl',
-        scope: true,
-        template: '<div>{{ctrl.p.title}}</div>'
+        template: '<button ng-click="ctrl.setScreen(1)">Click me!</button>'
     };
 });
 
