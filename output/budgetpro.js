@@ -1,4 +1,5 @@
-"use strict";
+/// <reference path="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" />
+
 
 var app = angular.module('account', []).controller('AccountController', ['$scope', '$http', 'period', 'prompt', function ($scope, $http, period, prompt) {
     //Account user info
@@ -228,3 +229,177 @@ var app = angular.module('account', []).controller('AccountController', ['$scope
 
 
 
+
+app.factory('period', function () {
+    return {
+        setPeriod: function (frequency, dayOfWeek, dayOfMonth1, dayOfMonth2, month1, month2, periodStart) {
+            return {
+                frequency: frequency,
+                dayOfWeek: dayOfWeek,
+                dayOfMonth1: dayOfMonth1,
+                dayOfMonth2: dayOfMonth2,
+                month1: month1,
+                month2: month2,
+                periodStart: periodStart
+            }
+        },
+
+
+        frequency: [
+        { id: 0, name: 'Daily' },
+        { id: 1, name: 'Weekly' },
+        { id: 2, name: 'Bi-Weekly' },
+        { id: 3, name: 'Semi-Monthly' },
+        { id: 4, name: 'Monthly' },
+        { id: 5, name: 'Quarterly' },
+        { id: 6, name: 'Semi-Annually' },
+        { id: 7, name: 'Annually' }],
+
+        daysOfWeek: [
+        { id: 0, name: 'Sunday' },
+        { id: 1, name: 'Monday' },
+        { id: 2, name: 'Tuesday' },
+        { id: 3, name: 'Wednesday' },
+        { id: 4, name: 'Thursday' },
+        { id: 5, name: 'Friday' },
+        { id: 6, name: 'Saturday' }],
+
+        daysOfMonth: [
+        { id: 1, name: '1st' },
+        { id: 2, name: '2nd' },
+        { id: 3, name: '3rd' },
+        { id: 4, name: '4th' },
+        { id: 5, name: '5th' },
+        { id: 6, name: '6th' },
+        { id: 7, name: '7th' },
+        { id: 8, name: '8th' },
+        { id: 9, name: '9th' },
+        { id: 10, name: '10th' },
+        { id: 11, name: '11th' },
+        { id: 12, name: '12th' },
+        { id: 13, name: '13th' },
+        { id: 14, name: '14th' },
+        { id: 15, name: '15th' },
+        { id: 16, name: '16th' },
+        { id: 17, name: '17th' },
+        { id: 18, name: '18th' },
+        { id: 19, name: '19th' },
+        { id: 20, name: '20th' },
+        { id: 21, name: '21st' },
+        { id: 22, name: '22nd' },
+        { id: 23, name: '23rd' },
+        { id: 24, name: '24th' },
+        { id: 25, name: '25th' },
+        { id: 26, name: '26th' },
+        { id: 27, name: '27th' },
+        { id: 28, name: '28th' },
+        { id: 29, name: '29th' },
+        { id: 30, name: '30th' },
+        { id: 31, name: '31st' }],
+
+        months: [
+        { id: 0, name: 'January' },
+        { id: 1, name: 'February' },
+        { id: 2, name: 'March' },
+        { id: 3, name: 'April' },
+        { id: 4, name: 'May' },
+        { id: 5, name: 'June' },
+        { id: 6, name: 'July' },
+        { id: 7, name: 'August' },
+        { id: 8, name: 'September' },
+        { id: 9, name: 'October' },
+        { id: 10, name: 'November' },
+        { id: 11, name: 'December' }]
+    }
+});
+app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile, $rootScope) {
+    return {
+        //Enumeration for the different prompt types
+        type: {
+            alert: 1,
+            confirm: 2,
+            input: 3
+        },
+        //This method is responsible for showing the prompt
+        show: function (promptType, message, acceptCallback, declineCallback) {
+            var prompt, scope, title, accept, decline;
+
+            //Get the scope the prompt is being called in
+            scope = $rootScope.$$childTail;
+
+            //Create the prompt directive
+            prompt = $compile('<prompt>')(scope);
+            angular.element(document.getElementById("ctrl")).append(prompt);
+
+            //Set the prompt type
+            switch(promptType) {
+                //Alert
+                case 1:
+                    title = 'Alert';
+                    accept = 'OK';
+                    break;
+                //Confirm
+                case 2:
+                    title = 'Confirm';
+                    accept = 'Yes';
+                    decline = 'No';
+                    break;
+                //Input
+                case 3:
+                    title = 'Input';
+                    accept = 'OK';
+                    decline = 'Cancel';
+                    break;
+            }
+
+            //Set the properties for this prompt
+            scope.$$childTail.promptTitle = title;
+            scope.$$childTail.promptMessage = message;
+            scope.$$childTail.acceptLabel = accept;
+            scope.$$childTail.declineLabel = decline;
+            scope.$$childTail.acceptCallback = acceptCallback;
+            scope.$$childTail.declineCallback = declineCallback;
+        }
+    }
+}]);
+
+app.directive('prompt', function () {
+    return {
+        restrict: 'E',
+        scope: true,
+        templateUrl: 'prompt.html',
+        link: function (scope, element, attributes) {
+            //Disable controls if any
+            setDisabled(true);
+
+            //Function called if the accept button is clicked
+            scope.accept = function () {
+                close();
+                if (scope.acceptCallback)scope.acceptCallback();
+            }
+
+            //Function called if the decline button is clicked
+            scope.decline = function () {
+                close();
+                if(scope.declineCallback)scope.declineCallback();
+            }
+
+            //Remove this directeve
+            function close() {
+                scope.$destroy();
+                element.remove();
+                setDisabled(false);
+            }
+
+            //Disables/Enables controls on a form
+            function setDisabled(isDisabled) {
+                if (scope.form) {
+                    angular.forEach(scope.form.$$controls, function (control) {
+                        control.$$attr.$set('disabled', isDisabled);
+                    });
+                }
+                
+            }
+        }
+    }
+});

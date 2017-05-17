@@ -1,0 +1,10 @@
+[
+  {
+    "outputFileName": "output/budgetpro.js",
+    "inputFiles": [
+      "scripts/account.js",
+      "scripts/period.js",
+      "scripts/prompt.js"
+    ]
+  }
+]
