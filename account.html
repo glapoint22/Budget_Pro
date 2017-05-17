@@ -10,37 +10,37 @@
     <link href="budget-pro.min.css" rel="stylesheet" />
 </head>
 <body ng-app="account">
-    <div id="ctrl" ng-controller="AccountController as ctrl">
+    <div id="ctrl" ng-controller="AccountController">
         <form novalidate name="form">
             <h2>Create an account</h2>
             <hr/>
             <!--1st screen-->
-            <div ng-show="ctrl.screenIndex === 0">
+            <div ng-show="screenIndex === 0">
                 <!--User Info-->
                 <div class="numbered-circle">1</div>
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input name="firstName" class="control width-50 float-left" type="text" ng-model="ctrl.fname" placeholder="First Name" autofocus="autofocus" required>
+                    <input name="firstName" class="control width-50 float-left" type="text" ng-model="user.fname" placeholder="First Name" autofocus="autofocus" required>
                     <div ng-show="form.firstName.$error.required && form.firstName.$touched" style="top: 110px; left: -180px" class="bubble message-bubble message-arrow-right">First name is required</div>
 
                     <!--Last Name-->
-                    <input name="lastName" class="control width-50 float-right" type="text" ng-model="ctrl.lname" placeholder="Last Name" required>
+                    <input name="lastName" class="control width-50 float-right" type="text" ng-model="user.lname" placeholder="Last Name" required>
                     <div ng-show="form.lastName.$error.required && form.lastName.$touched" style="top: 110px; right: -177px" class="bubble message-bubble message-arrow-left">Last name is required</div>
 
                     <!--Email-->
-                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="email" name="email" ng-model="ctrl.email" placeholder="Email" required>
+                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="email" name="email" ng-model="user.email" placeholder="Email" required>
                     <div ng-show="form.email.$error.email && form.email.$touched" style="top: 157px; left:-247px" class="bubble message-bubble message-arrow-right">This is not a valid email address</div>
                     <div ng-show="form.email.$error.required && form.email.$touched" style="top: 157px; left:-147px" class="bubble message-bubble message-arrow-right">Email is required</div>
                     
                     
                     <!--Confirm Email-->
-                    <input class="control width-50 float-right" type="text" name="confirmEmail" ng-model="ctrl.cEmail" placeholder="Confirm Email" required confirm="ctrl.email">
+                    <input class="control width-50 float-right" type="text" name="confirmEmail" ng-model="cEmail" placeholder="Confirm Email" required confirm="user.email">
                     <div ng-show="form.confirmEmail.$error.confirm && form.confirmEmail.$touched" style="top: 157px; left:725px" class="bubble message-bubble message-arrow-left">Emails must match</div>
                     <div ng-show="form.confirmEmail.$error.required && form.confirmEmail.$touched" style="top: 157px; left:725px" class="bubble message-bubble message-arrow-left">Confirm email is required</div>
                     
                     <!--Password-->
-                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="password" name="password" ng-model="ctrl.pword" placeholder="Password" required password>
+                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="password" name="password" ng-model="user.pword" placeholder="Password" required password>
                     <div ng-show="form.password.$error.required && form.password.$touched" style="top: 205px; left:-172px" class="bubble message-bubble message-arrow-right">Password is required</div>
                     <div ng-show="form.password.$error.password && form.password.$touched" style="top: 205px; left:-409px" class="bubble password-bubble message-arrow-right">
                         <ul>
@@ -51,7 +51,7 @@
                     </div>
 
                     <!--Confirm Password-->
-                    <input class="control width-50 float-right" type="password" name="confirmPassword" ng-model="ctrl.cPword" placeholder="Confirm Password" required confirm="ctrl.pword" >
+                    <input class="control width-50 float-right" type="password" name="confirmPassword" ng-model="cPword" placeholder="Confirm Password" required confirm="user.pword" >
                     <div ng-show="form.confirmPassword.$error.confirm && form.confirmPassword.$touched" style="top: 205px; left:725px" class="bubble message-bubble message-arrow-left">Passwords must match</div>
                     <div ng-show="form.confirmPassword.$error.required && form.confirmPassword.$touched" style="top: 205px; left:725px" class="bubble message-bubble message-arrow-left">Confirm password is required</div>
 
@@ -60,21 +60,21 @@
                 </div>
 
                 <!--Employers-->
-               <item-sets items="ctrl.employers" item-text="ctrl.employerText" form="form"></item-sets>
-                <button type="button" style="position:relative; left: 638px; top: 5px" ng-click="ctrl.setScreen(1)">Next</button>
+               <item-sets items="employers" item-text="employerText" form="form"></item-sets>
+                <button ng-model="next" type="button" style="position:relative; left: 638px; top: 5px" ng-click="setScreen(1)">Next</button>
             </div>
 
             <!--2nd screen-->
-            <div ng-show="ctrl.screenIndex === 1">
+            <div ng-show="screenIndex === 1">
                 <div class="numbered-circle">3</div>
                 <div class="section-text">Envelopes</div>
 
                 <!--Envelopes-->
-                <item-sets items="ctrl.envelopes" item-text="ctrl.envelopeText" form="form"></item-sets>
+                <item-sets items="envelopes" item-text="envelopeText" form="form"></item-sets>
 
                 <!--Previous and submit buttons-->
-                <button type="button" style="position:relative; top: 5px" ng-click="ctrl.setScreen(0)">Previous</button>
-                <button type="submit" style="position:relative; left: 552px; top: 5px" ng-click="ctrl.submit(form)">Submit</button>
+                <button ng-model="previous" type="button" style="position:relative; top: 5px" ng-click="setScreen(0)">Previous</button>
+                <button ng-model="submit" type="submit" style="position:relative; left: 552px; top: 5px" ng-click="submit(form)">Submit</button>
             </div>
         </form>
     </div>

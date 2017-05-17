@@ -1,35 +1,21 @@
 "use strict";
 
-var app = angular.module('account', []).controller('AccountController', ['$http', 'period', '$compile', '$scope', function ($http, period, $compile, $scope) {
-    var ctrl = this;
-
-
-    
-
+var app = angular.module('account', []).controller('AccountController', ['$scope', '$http', 'period', 'prompt', function ($scope, $http, period, prompt) {
     //Account user info
-    ctrl.fname = '';
-    ctrl.lname = '';
-    ctrl.email = '';
-    ctrl.cEmail = '';
-    ctrl.pword = '';
-    ctrl.cPword = '';
-
-    
-    //ctrl.p = prompt.show('Gumpy');
-
-    ctrl.addItem = function (item) {
-        var prompt = $compile('<prompt>')($scope.$parent);
+    $scope.user = {
+        fname: '',
+        lname: '',
+        email: '',
+        pword: ''
+    }
 
 
-        //where do you want to place the new element?
-        angular.element(document.getElementById("ctrl")).append(prompt);
-
-
+    $scope.addItem = function (item) {
         //Add another item to the array
         item.push(new budgetItem());
     };
 
-    ctrl.removeItem = function (index, item, name) {
+    $scope.removeItem = function (index, item, name) {
         var temp = [];
 
         //Make sure there is at least one item
@@ -46,8 +32,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
 
     //Employers
-    ctrl.employers = [new budgetItem()];
-    ctrl.employerText = new itemText('Employer',
+    $scope.employers = [new budgetItem()];
+    $scope.employerText = new itemText('Employer',
                                     500,
                                     'Income Type:',
                                     'Fixed Income',
@@ -69,8 +55,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
 
     //Envelopes
-    ctrl.envelopes = [new budgetItem()];
-    ctrl.envelopeText = new itemText('Envelope',
+    $scope.envelopes = [new budgetItem()];
+    $scope.envelopeText = new itemText('Envelope',
                                     671,
                                     'Envelope Type:',
                                     'Dynamic',
@@ -121,26 +107,34 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     }
 
     //frequency
-    ctrl.frequency = period.frequency;
+    $scope.frequency = period.frequency;
 
     //Days of the week
-    ctrl.daysOfWeek = period.daysOfWeek;
+    $scope.daysOfWeek = period.daysOfWeek;
 
     //Days of the month
-    ctrl.daysOfMonth = period.daysOfMonth;
+    $scope.daysOfMonth = period.daysOfMonth;
 
     //Months
-    ctrl.months = period.months;
+    $scope.months = period.months;
 
     //Screen
-    ctrl.screenIndex = 0;
-    ctrl.setScreen = function (index) {
-        ctrl.screenIndex = index;
+    $scope.screenIndex = 0;
+    $scope.setScreen = function (index) {
+        $scope.screenIndex = index;
     }
 
 
+    var acceptTest = function () {
+        console.log('Accept');
+    }
+
+    var declineTest = function () {
+        console.log('Decline');
+    }
+
     //Submit the form
-    ctrl.submit = function (form) {
+    $scope.submit = function (form) {
         //First check to see if all fields on the form are correctly filled out
         if (!form.$valid) {
             //Loop through each control and set it as touched.
@@ -152,28 +146,23 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             });
 
             //Show a message stating to fix errors
-            alert('Please correct any errors on this form.');
+            prompt.show(prompt.type.confirm, 'Ooops! Please correct all invalid fields.', $scope, acceptTest, declineTest);
             return;
         }
 
         //Submit the form
         var config = {
             params: {
-                user: {
-                    firstName: ctrl.fname,
-                    lastName: ctrl.lname,
-                    email: ctrl.email,
-                    password: ctrl.pword
-                },
-                employers: ctrl.employers,
-                envelopes: ctrl.envelopes
+                user: $scope.user,
+                employers: $scope.employers,
+                envelopes: $scope.envelopes
             }
         }
         $http.get('Account.asmx/CreateAccount', config)
         .then(function successCallback(response) {
 
         }, function errorCallback(response) {
-            alert(response.statusText);
+            prompt.show(prompt.type.alert, response.statusText, $scope);
         });
     }
 }])
@@ -181,7 +170,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     return {
         restrict: 'E',
         controller: 'AccountController',
-        controllerAs: 'ctrl',
         scope: {
             items: '=',
             itemText: '=',
@@ -241,13 +229,8 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
 
         }
     }
-})
-.directive('prompt', function () {
-    return {
-        restrict: 'E',
-        template: '<button ng-click="ctrl.setScreen(1)">Click me!</button>'
-    }
 });
+
 
 
 

@@ -1,29 +1,20 @@
 ﻿"use strict";
 
-var app = angular.module('account', []).controller('AccountController', ['$http', 'period', '$compile', '$scope', function ($http, period, $compile, $scope) {
-    var ctrl = this;
-
+var app = angular.module('account', []).controller('AccountController', ['$scope', '$http', 'period', 'prompt', function ($scope, $http, period, prompt) {
     //Account user info
-    ctrl.fname = '';
-    ctrl.lname = '';
-    ctrl.email = '';
-    ctrl.cEmail = '';
-    ctrl.pword = '';
-    ctrl.cPword = '';
+    $scope.user = {
+        fname: '',
+        lname: '',
+        email: '',
+        pword: ''
+    };
 
-    //ctrl.p = prompt.show('Gumpy');
-
-    ctrl.addItem = function (item) {
-        var prompt = $compile('<prompt>')($scope.$parent);
-
-        //where do you want to place the new element?
-        angular.element(document.getElementById("ctrl")).append(prompt);
-
+    $scope.addItem = function (item) {
         //Add another item to the array
         item.push(new budgetItem());
     };
 
-    ctrl.removeItem = function (index, item, name) {
+    $scope.removeItem = function (index, item, name) {
         var temp = [];
 
         //Make sure there is at least one item
@@ -39,12 +30,12 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     };
 
     //Employers
-    ctrl.employers = [new budgetItem()];
-    ctrl.employerText = new itemText('Employer', 500, 'Income Type:', 'Fixed Income', 'Variable Income', 'Employer Name', 'Net Pay', 'Pay Period Frequency:', 'This employer pays me every week on:', 'This employer pays me every other week on:', 'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:', 'This employer pays me every month on the:', 'This employer pays me every year on:', 'Click to add an employer', 'employer', 'netPay');
+    $scope.employers = [new budgetItem()];
+    $scope.employerText = new itemText('Employer', 500, 'Income Type:', 'Fixed Income', 'Variable Income', 'Employer Name', 'Net Pay', 'Pay Period Frequency:', 'This employer pays me every week on:', 'This employer pays me every other week on:', 'Enter a date when you\'ve received payment from this employer or a date when you expect to be paid:', 'This employer pays me every month on the:', 'This employer pays me every year on:', 'Click to add an employer', 'employer', 'netPay');
 
     //Envelopes
-    ctrl.envelopes = [new budgetItem()];
-    ctrl.envelopeText = new itemText('Envelope', 671, 'Envelope Type:', 'Dynamic', 'Static', 'Envelope Name', 'Amount', 'Withdraw Frequency:', 'This envelope gets withdrawn every week on:', 'This envelope gets withdrawn every other week on:', 'Enter a date when this envelope has been withdrawn:', 'This envelope gets withdrawn every month on the:', 'This envelope gets withdrawn every year on:', 'Click to add an envelope', 'envelope', 'amount');
+    $scope.envelopes = [new budgetItem()];
+    $scope.envelopeText = new itemText('Envelope', 671, 'Envelope Type:', 'Dynamic', 'Static', 'Envelope Name', 'Amount', 'Withdraw Frequency:', 'This envelope gets withdrawn every week on:', 'This envelope gets withdrawn every other week on:', 'Enter a date when this envelope has been withdrawn:', 'This envelope gets withdrawn every month on the:', 'This envelope gets withdrawn every year on:', 'Click to add an envelope', 'envelope', 'amount');
 
     function itemText(legend, height, radioTitle, radio1, radio2, name, currency, frequency, weekly, biWeekly, periodStart, monthly, annually, add, itemName, currencyName) {
         return {
@@ -77,25 +68,33 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
     }
 
     //frequency
-    ctrl.frequency = period.frequency;
+    $scope.frequency = period.frequency;
 
     //Days of the week
-    ctrl.daysOfWeek = period.daysOfWeek;
+    $scope.daysOfWeek = period.daysOfWeek;
 
     //Days of the month
-    ctrl.daysOfMonth = period.daysOfMonth;
+    $scope.daysOfMonth = period.daysOfMonth;
 
     //Months
-    ctrl.months = period.months;
+    $scope.months = period.months;
 
     //Screen
-    ctrl.screenIndex = 0;
-    ctrl.setScreen = function (index) {
-        ctrl.screenIndex = index;
+    $scope.screenIndex = 0;
+    $scope.setScreen = function (index) {
+        $scope.screenIndex = index;
+    };
+
+    var acceptTest = function acceptTest() {
+        console.log('Accept');
+    };
+
+    var declineTest = function declineTest() {
+        console.log('Decline');
     };
 
     //Submit the form
-    ctrl.submit = function (form) {
+    $scope.submit = function (form) {
         //First check to see if all fields on the form are correctly filled out
         if (!form.$valid) {
             //Loop through each control and set it as touched.
@@ -107,32 +106,26 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
             });
 
             //Show a message stating to fix errors
-            alert('Please correct any errors on this form.');
+            prompt.show(prompt.type.confirm, 'Ooops! Please correct all invalid fields.', $scope, acceptTest, declineTest);
             return;
         }
 
         //Submit the form
         var config = {
             params: {
-                user: {
-                    firstName: ctrl.fname,
-                    lastName: ctrl.lname,
-                    email: ctrl.email,
-                    password: ctrl.pword
-                },
-                employers: ctrl.employers,
-                envelopes: ctrl.envelopes
+                user: $scope.user,
+                employers: $scope.employers,
+                envelopes: $scope.envelopes
             }
         };
         $http.get('Account.asmx/CreateAccount', config).then(function successCallback(response) {}, function errorCallback(response) {
-            alert(response.statusText);
+            prompt.show(prompt.type.alert, response.statusText, $scope);
         });
     };
 }]).directive('itemSets', function () {
     return {
         restrict: 'E',
         controller: 'AccountController',
-        controllerAs: 'ctrl',
         scope: {
             items: '=',
             itemText: '=',
@@ -187,11 +180,6 @@ var app = angular.module('account', []).controller('AccountController', ['$http'
                 attrs.$set('name', scope.setName + scope.nameIndex);
             });
         }
-    };
-}).directive('prompt', function () {
-    return {
-        restrict: 'E',
-        template: '<button ng-click="ctrl.setScreen(1)">Click me!</button>'
     };
 });
 
