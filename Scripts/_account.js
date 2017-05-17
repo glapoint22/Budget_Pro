@@ -3,10 +3,10 @@
 var app = angular.module('account', []).controller('AccountController', ['$scope', '$http', 'period', 'prompt', function ($scope, $http, period, prompt) {
     //Account user info
     $scope.user = {
-        fname: '',
-        lname: '',
+        firstName: '',
+        lastName: '',
         email: '',
-        pword: ''
+        password: ''
     }
 
 
@@ -20,14 +20,16 @@ var app = angular.module('account', []).controller('AccountController', ['$scope
 
         //Make sure there is at least one item
         if (item.length === 1) {
-            alert('You need at least one ' + name + '.');
+            prompt.show(prompt.type.alert, 'You need at least one ' + name + '.');
             return;
         }
 
-        //Remove the item based on the index passed in
-        angular.copy(item, temp);
-        temp.splice(index, 1);
-        angular.copy(temp, item);
+        prompt.show(prompt.type.confirm, 'Are you sure you want to remove this ' + name + '?', function () {
+            //Remove the item based on the index passed in
+            angular.copy(item, temp);
+            temp.splice(index, 1);
+            angular.copy(temp, item);
+        });
     };
 
 
@@ -125,14 +127,6 @@ var app = angular.module('account', []).controller('AccountController', ['$scope
     }
 
 
-    var acceptTest = function () {
-        console.log('Accept');
-    }
-
-    var declineTest = function () {
-        console.log('Decline');
-    }
-
     //Submit the form
     $scope.submit = function (form) {
         //First check to see if all fields on the form are correctly filled out
@@ -146,7 +140,7 @@ var app = angular.module('account', []).controller('AccountController', ['$scope
             });
 
             //Show a message stating to fix errors
-            prompt.show(prompt.type.confirm, 'Ooops! Please correct all invalid fields.', $scope, acceptTest, declineTest);
+            prompt.show(prompt.type.alert, 'Ooops! Please correct all invalid fields.');
             return;
         }
 
@@ -162,7 +156,7 @@ var app = angular.module('account', []).controller('AccountController', ['$scope
         .then(function successCallback(response) {
 
         }, function errorCallback(response) {
-            prompt.show(prompt.type.alert, response.statusText, $scope);
+            prompt.show(prompt.type.alert, response.statusText);
         });
     }
 }])

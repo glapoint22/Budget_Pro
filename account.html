@@ -21,11 +21,11 @@
                 <div class="section-text">User Info</div>
                 <div>
                     <!--First Name-->
-                    <input name="firstName" class="control width-50 float-left" type="text" ng-model="user.fname" placeholder="First Name" autofocus="autofocus" required>
+                    <input name="firstName" class="control width-50 float-left" type="text" ng-model="user.firstName" placeholder="First Name" autofocus="autofocus" required>
                     <div ng-show="form.firstName.$error.required && form.firstName.$touched" style="top: 110px; left: -180px" class="bubble message-bubble message-arrow-right">First name is required</div>
 
                     <!--Last Name-->
-                    <input name="lastName" class="control width-50 float-right" type="text" ng-model="user.lname" placeholder="Last Name" required>
+                    <input name="lastName" class="control width-50 float-right" type="text" ng-model="user.lastName" placeholder="Last Name" required>
                     <div ng-show="form.lastName.$error.required && form.lastName.$touched" style="top: 110px; right: -177px" class="bubble message-bubble message-arrow-left">Last name is required</div>
 
                     <!--Email-->
@@ -40,7 +40,7 @@
                     <div ng-show="form.confirmEmail.$error.required && form.confirmEmail.$touched" style="top: 157px; left:725px" class="bubble message-bubble message-arrow-left">Confirm email is required</div>
                     
                     <!--Password-->
-                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="password" name="password" ng-model="user.pword" placeholder="Password" required password>
+                    <input ng-model-options="{allowInvalid: true}" class="control width-50 float-left" type="password" name="password" ng-model="user.password" placeholder="Password" required password>
                     <div ng-show="form.password.$error.required && form.password.$touched" style="top: 205px; left:-172px" class="bubble message-bubble message-arrow-right">Password is required</div>
                     <div ng-show="form.password.$error.password && form.password.$touched" style="top: 205px; left:-409px" class="bubble password-bubble message-arrow-right">
                         <ul>
@@ -51,7 +51,7 @@
                     </div>
 
                     <!--Confirm Password-->
-                    <input class="control width-50 float-right" type="password" name="confirmPassword" ng-model="cPword" placeholder="Confirm Password" required confirm="user.pword" >
+                    <input class="control width-50 float-right" type="password" name="confirmPassword" ng-model="cPword" placeholder="Confirm Password" required confirm="user.password" >
                     <div ng-show="form.confirmPassword.$error.confirm && form.confirmPassword.$touched" style="top: 205px; left:725px" class="bubble message-bubble message-arrow-left">Passwords must match</div>
                     <div ng-show="form.confirmPassword.$error.required && form.confirmPassword.$touched" style="top: 205px; left:725px" class="bubble message-bubble message-arrow-left">Confirm password is required</div>
 
