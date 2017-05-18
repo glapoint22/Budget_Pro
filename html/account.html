@@ -4,10 +4,10 @@
     <title>Create Account</title>
 	<meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <link href="../output/budgetpro.min.css" rel="stylesheet" />
-    <script src="../output/budgetpro.min.js"></script>
+    <link href="../output/budgetPro.min.css" rel="stylesheet" />
+    <script src="../output/budgetPro.min.js"></script>
 </head>
-<body ng-app="account">
+<body ng-app="budgetPro">
     <div id="ctrl" ng-controller="AccountController">
         <form novalidate name="form">
             <h2>Create an account</h2>
@@ -58,7 +58,10 @@
                 </div>
 
                 <!--Employers-->
-               <item-sets items="employers" item-text="employerText" form="form"></item-sets>
+                <div ng-controller="ItemSetsController">
+                    <item-sets items="employers" item-text="employerText" form="form"></item-sets>
+                </div>
+               
                 <button ng-model="next" type="button" style="position:relative; left: 638px; top: 5px" ng-click="setScreen(1)">Next</button>
             </div>
 
@@ -68,15 +71,14 @@
                 <div class="section-text">Envelopes</div>
 
                 <!--Envelopes-->
-                <item-sets items="envelopes" item-text="envelopeText" form="form"></item-sets>
-
+                <div ng-controller="ItemSetsController">
+                    <item-sets items="envelopes" item-text="envelopeText" form="form"></item-sets>
+                </div>
                 <!--Previous and submit buttons-->
                 <button ng-model="previous" type="button" style="position:relative; top: 5px" ng-click="setScreen(0)">Previous</button>
                 <button ng-model="submit" type="submit" style="position:relative; left: 552px; top: 5px" ng-click="submit(form)">Submit</button>
             </div>
         </form>
     </div>
-    
-    
 </body>
 </html>

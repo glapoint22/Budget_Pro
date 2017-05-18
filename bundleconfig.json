@@ -1,10 +1,15 @@
 [
   {
-    "outputFileName": "output/budgetpro.js",
+    "outputFileName": "output/budgetPro.js",
     "inputFiles": [
-      "scripts/account.js",
+      "scripts/budgetPro.js",
+      "scripts/budgetItem.js",
       "scripts/period.js",
-      "scripts/prompt.js"
+      "scripts/prompt.js",
+      "scripts/validation.js",
+      "scripts/itemSets.js",
+      "scripts/accountController.js",
+      "scripts/itemSetsController.js"
     ]
   }
 ]

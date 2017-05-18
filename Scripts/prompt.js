@@ -48,7 +48,6 @@ app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile
         }
     }
 }]);
-
 app.directive('prompt', function () {
     return {
         restrict: 'E',
