@@ -25,13 +25,13 @@ app.factory('itemSets', function itemSetsFactory() {
 app.directive('itemSets', function () {
     return {
         restrict: 'E',
-        controller: 'ItemSetsController',
+        controller: 'AccountController',
         scope: {
             items: '=',
             itemText: '=',
             form: '='
         },
-        templateUrl: 'item-set.html'
+        templateUrl: 'itemSet.html'
     };
 });
 app.directive('setName', function () {

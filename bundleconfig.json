@@ -8,8 +8,7 @@
       "scripts/prompt.js",
       "scripts/validation.js",
       "scripts/itemSets.js",
-      "scripts/accountController.js",
-      "scripts/itemSetsController.js"
+      "scripts/accountController.js"
     ]
   }
 ]
