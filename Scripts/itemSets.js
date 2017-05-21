@@ -31,7 +31,7 @@ app.directive('itemSets', function () {
             itemText: '=',
             form: '='
         },
-        templateUrl: 'itemSet.html'
+        templateUrl: 'templates/itemSet.html'
     };
 });
 app.directive('setName', function () {

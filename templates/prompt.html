@@ -1,0 +1,14 @@
+<div class="modal">
+    <div class="prompt">
+        <div class="prompt-header">
+            {{promptTitle}}
+        </div>
+        <div class="prompt-message">
+            {{promptMessage}}
+        </div>
+        <div class="prompt-button-container flex-container">
+            <button ng-click="accept()" type="button">{{acceptLabel}}</button>
+            <button ng-click="decline()" ng-hide="promptTitle === 'Alert'" type="button">{{declineLabel}}</button>
+        </div>
+    </div>
+</div>

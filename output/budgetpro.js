@@ -1,4 +1,20 @@
-var app = angular.module('budgetPro', []);
+var app = angular.module('budgetPro', ['ui.router'])
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $urlRouterProvider.otherwise('/login');
+    $locationProvider.html5Mode(true);
+    $stateProvider
+        .state('login', {
+            url: '/login',
+            templateUrl: 'templates/login.html',
+            controller: 'LoginController'
+        })
+        .state('account', {
+            url: '/account',
+            templateUrl: 'templates/account.html',
+            controller: 'AccountController'
+        });
+}]);
+                
 app.factory('budgetItem', ['period', function budgetItemFactory(period) {
     return function(name, type){
         return {
@@ -142,7 +158,7 @@ app.directive('prompt', function () {
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: 'prompt.html',
+        templateUrl: 'templates/prompt.html',
         link: function (scope, element, attributes) {
             //Disable controls if any
             setDisabled(true);
@@ -248,7 +264,7 @@ app.directive('itemSets', function () {
             itemText: '=',
             form: '='
         },
-        templateUrl: 'itemSet.html'
+        templateUrl: 'templates/itemSet.html'
     };
 });
 app.directive('setName', function () {
@@ -424,4 +440,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
             prompt.show(prompt.type.alert, response.statusText);
         });
     }
+}]);
+app.controller('LoginController', ['$scope', function ($scope) {
+    $scope.test = 'hello';
 }]);

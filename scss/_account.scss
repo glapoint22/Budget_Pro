@@ -1,54 +1,36 @@
 @import 'utility';
 
-.account-form {
-    margin: auto;
-    position: relative;
-    top: 50px;
-    width: 700px;
-    height: 800px;
-    font-size: 16px;
-    line-height: 24px;
-    border-radius: 5px;
-    padding: 5px 10px 5px 10px;
-    border: 1px solid $budget-border-color1;
-    color: $budget-font-color1;
-    background: $budget-color1;
-    font-weight: bold;
-
-    .width-50{
+.account{
+    form {
+        margin: auto;
+        position: relative;
+        top: 50px;
+        width: 700px;
+        height: 800px;
+        font-size: 16px;
+        line-height: 24px;
+        border-radius: 5px;
+        padding: 5px 10px 5px 10px;
+        border: 1px solid $budget-border-color1;
+        color: $budget-font-color1;
+        background: $budget-color1;
+        font-weight: bold;
+    }
+    .control{
         width: 49.2%;
+        height: 28px;
+        margin: 5px 0px 10px 0px;
+        &.ng-invalid.ng-touched{
+            border-color: red;
+            outline: none;
+        }
     }
-
-    .add-item{
-        text-align:center; 
-        text-decoration: underline; 
-        font-style: italic; 
-        margin-top:20px;
-        margin-bottom: 20px;
+    .float-left{
+        float: left;
     }
-
-    .add-item-text:hover{
-        cursor: pointer;
-        color: white;
-        text-decoration: underline;
+    .float-right{
+        float: right;
     }
-
-    .remove-text{
-        position:relative; 
-        top:-15px; 
-        left: 600px;
-        font-size:14px;
-        font-style: italic;
-        text-decoration: underline;
-        height: 0px;
-        width: 0px;
-    }
-
-    .remove-text:hover{
-        color: white;
-        cursor: pointer;
-    }
-
     hr{
         border:1px solid $budget-border-color1;
         width:75%;
@@ -62,7 +44,6 @@
         text-align: center;
         margin: 5px 0px 5px 0px;
         color: $budget-font-color2;
-        
     }
     .section-text{
         position:relative; 
@@ -71,26 +52,6 @@
         color: $budget-font-color2; 
         height:0px;
     }
-
-    .content-container{
-        border:1px solid $budget-border-color2;
-        overflow: auto;
-        margin-top: 5px;
-        background: $budget-color2;
-    }
-    fieldset{
-        margin: 5px 10px 5px 10px;
-        border: 1px dashed white;
-        padding-right: 5px;
-        background: $budget-color1;
-    }
-
-
-    .radio-group{
-        text-align:center;
-        margin-bottom: 5px;
-    }
-    
     .message-arrow-right:before{
 	    content: ' ';
 	    position: absolute;
@@ -102,7 +63,6 @@
 	    border: 8px solid;
 	    border-color: $budget-border-color1 transparent transparent $budget-border-color1;
     }
-
     .message-arrow-right:after{
 	    content: ' ';
 	    position: absolute;
@@ -114,7 +74,6 @@
 	    border: 7px solid;
 	    border-color: $budget-color2 transparent transparent $budget-color2;
     }
-
     .message-arrow-left:before{
 	    content: ' ';
 	    position: absolute;
@@ -126,7 +85,6 @@
 	    border: 8px solid;
 	    border-color: $budget-border-color1 $budget-border-color1 transparent transparent;
     }
-
     .message-arrow-left:after{
 	    content: ' ';
 	    position: absolute;
@@ -138,7 +96,6 @@
 	    border: 7px solid;
 	    border-color: $budget-color2 $budget-color2 transparent transparent;
     }
-
     .bubble{
         position: absolute;
         width: auto;
@@ -149,13 +106,11 @@
         border: 1px solid $budget-border-color1;
         background: $budget-color2;
     }
-
     .message-bubble {
         padding: 5px 10px 5px 10px;
         color: $budget-font-color1;
         display: inline-table;
     }
-
     .password-bubble {
         padding: 0px 10px 0px 0px;
         color: $budget-font-color1;
@@ -163,9 +118,12 @@
             padding-left: 25px;
         }
     }
-
-    .error-text{
-        color: red;
-        margin-right: 15px;
+    h2{
+        text-align: center;
+        margin-bottom: 0px
+    }
+    button{
+        position: relative;
+        top: 6px;
     }
 }

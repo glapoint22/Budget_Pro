@@ -1,59 +1,37 @@
 @import 'utility';
 @import 'account';
 @import 'prompt';
-
+@import 'itemSets';
 
 body {
-    background-color: #3c3c3c;
+    background: $budget-background;
 }
-
 .control{
     background-color: #151515;
     color: $budget-font-color2;
     border: 1px solid $budget-border-color2;
     font-size: 14px;
     text-indent: 5px;
-    height: 28px;
-    margin: 5px 0px 10px 0px;
-    &.ng-invalid.ng-touched{
-        border-color: red;
-        outline: none;
-    }
-    &.flex-control{
-    width:638px;
-    margin: 0px 5px 0px 5px;
 }
-}
-.float-left{
-    float: left;
-}
-
-.float-right{
-    float: right;
-}
-
 button{
-    background-color: #32475b;
-    border: none;
-    color: #bababa;
-    font-size: 14px;
+    border-radius: 5px; 
+    background: $button-color;
+    border: 1px solid $budget-border-color2;
+    color: $budget-font-color1;
+    padding: 3px;
 }
-
 button:hover{
-    background-color: #506f8d;
+    background: $button-color-hover;
     cursor: pointer;
-    color:#ffffff;
+    color: white;
 }
-
 ::-webkit-scrollbar{
     width: 15px;
 }
-
 ::-webkit-scrollbar-track{
     background: #151515;
     border: 1px solid #333232;
 }
-
 ::-webkit-scrollbar-thumb{
     background: #464a53;
     border: 1px solid #868686;
@@ -70,16 +48,6 @@ button:hover{
     align-items: center; 
     justify-content: center;
 }
-
-h2{
-    text-align: center;
-    margin-bottom: 0px
-}
-
-select{
-    text-indent: 0px !important;
-}
-
 .flex-container {
     display: -webkit-flex;
     display: flex;

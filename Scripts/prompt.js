@@ -52,7 +52,7 @@ app.directive('prompt', function () {
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: 'prompt.html',
+        templateUrl: 'templates/prompt.html',
         link: function (scope, element, attributes) {
             //Disable controls if any
             setDisabled(true);

@@ -1,0 +1,68 @@
+.item-set {
+    .control{
+        &.flex-control{
+            width:638px;
+            margin: 0px 5px 0px 5px;
+        }
+    }
+    select{
+        text-indent: 0px;
+        width:initial !important;
+    }
+    input[type="date"]{
+        width: initial;
+    }
+    .add-item{
+        text-align:center; 
+        text-decoration: underline; 
+        font-style: italic; 
+        margin-top:20px;
+        margin-bottom: 20px;
+    }
+    .add-item-text:hover{
+        cursor: pointer;
+        color: white;
+        text-decoration: underline;
+    }
+    .remove-text{
+        position:relative; 
+        top:-15px; 
+        left: 600px;
+        font-size:14px;
+        font-style: italic;
+        text-decoration: underline;
+        height: 0px;
+        width: 0px;
+    }
+    .remove-text:hover{
+        color: white;
+        cursor: pointer;
+    }
+    .content-container{
+        border:1px solid $budget-border-color2;
+        overflow: auto;
+        margin-top: 5px;
+        background: $budget-color2;
+    }
+    fieldset{
+        margin: 5px 10px 5px 10px;
+        border: 1px dashed white;
+        padding-right: 5px;
+        background: $budget-color1;
+    }
+    .radio-group{
+        text-align:center;
+        margin-bottom: 5px;
+    }
+    .flex-container {
+        width: 650px;
+    }
+    .start-period-text{
+        font-style:italic; 
+        font-size: 12px;
+    }
+    .error-text{
+        color: red;
+        margin-right: 15px;
+    }
+}
