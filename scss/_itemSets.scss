@@ -1,3 +1,5 @@
+@import 'utility';
+
 .item-set {
     .control{
         &.flex-control{
@@ -62,7 +64,6 @@
         font-size: 12px;
     }
     .error-text{
-        color: red;
         margin-right: 15px;
     }
 }

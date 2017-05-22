@@ -1,3 +1,7 @@
-app.controller('LoginController', ['$scope', function ($scope) {
-    $scope.test = 'hello';
+app.controller('LoginController', ['$scope', 'loading', function ($scope, loading) {
+    $scope.email = '';
+    $scope.password = '';
+    $scope.login = function () {
+        loading.set(true, $scope);
+    }
 }]);

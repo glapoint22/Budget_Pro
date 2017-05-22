@@ -1,0 +1,40 @@
+@import 'utility';
+
+.login{
+    form{
+        top: 250px;
+        width: 300px;
+        height: 350px;
+    }
+    h1{
+        text-align:center;
+    }
+
+    .control{
+        width: 260px;
+        height: 28px;
+        margin: 20px 20px 0px 20px;
+    }
+
+    hr{
+        border:1px solid $budget-border-color1;
+        width:90%;
+        margin-bottom: 5px;
+    }
+    button{
+        width: 260px;
+        height: 35px;
+        margin: 20px 20px 10px 20px;
+    }
+    a{
+        color: $budget-font-color1;
+    }
+    
+    a:hover{
+        color: white;
+    }
+    .error-text{
+        margin-left: 15px;
+    }
+}
+

@@ -113,15 +113,12 @@ app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile
             input: 3
         },
         //This method is responsible for showing the prompt
-        show: function (promptType, message, acceptCallback, declineCallback) {
-            var prompt, scope, title, accept, decline;
-
-            //Get the scope the prompt is being called in
-            scope = $rootScope.$$childTail;
+        show: function (promptType, message, scope, acceptCallback, declineCallback) {
+            var prompt, title, accept, decline;
 
             //Create the prompt directive
             prompt = $compile('<prompt>')(scope);
-            angular.element(document.getElementById("ctrl")).append(prompt);
+            angular.element(document.body).append(prompt);
 
             //Set the prompt type
             switch(promptType) {
@@ -185,11 +182,19 @@ app.directive('prompt', function () {
             //Disables/Enables controls on a form
             function setDisabled(isDisabled) {
                 if (scope.form) {
-                    angular.forEach(scope.form.$$controls, function (control) {
-                        control.$$attr.$set('disabled', isDisabled);
-                    });
+                    if (isDisabled) {
+                        document.activeElement.blur();
+                        scope.form.$$element.find('input').attr('tabindex', '-1');
+                        scope.form.$$element.find('button').attr('tabindex', '-1');
+                        scope.form.$$element.find('a').attr('tabindex', '-1');
+                        scope.form.$$element.find('select').attr('tabindex', '-1');
+                    } else {
+                        scope.form.$$element.find('input').removeAttr('tabindex');
+                        scope.form.$$element.find('button').removeAttr('tabindex');
+                        scope.form.$$element.find('a').removeAttr('tabindex');
+                        scope.form.$$element.find('select').removeAttr('tabindex');
+                    }
                 }
-                
             }
         }
     }
@@ -353,7 +358,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
             //If there is only one remaining static type and you're trying to remove it, throw an error
             if (staticTypeCount === 1 && items[index].type === 1) {
-                prompt.show(prompt.type.alert, 'You need at least one static envelope.');
+                prompt.show(prompt.type.alert, 'You need at least one static envelope.', $scope);
                 return;
             }
         }
@@ -361,13 +366,13 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
         //Make sure there is at least one item
         if (items.length === 1) {
-            prompt.show(prompt.type.alert, 'You need at least one ' + name + '.');
+            prompt.show(prompt.type.alert, 'You need at least one ' + name + '.', $scope);
             return;
         }
 
         
         var temp = [];
-        prompt.show(prompt.type.confirm, 'Are you sure you want to remove this ' + name + '?', function () {
+        prompt.show(prompt.type.confirm, 'Are you sure you want to remove this ' + name + '?', $scope, function () {
             //Remove the item based on the index passed in
             angular.copy(items, temp);
             temp.splice(index, 1);
@@ -399,7 +404,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
         if (!formValid) {
             //Show a message stating to fix errors
-            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before you can move on.');
+            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before you can move on.', $scope);
             return;
         }
         $scope.screenIndex = index;
@@ -421,7 +426,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
             });
 
             //Show a message stating to fix errors
-            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before this form can be submitted.');
+            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before this form can be submitted.', $scope);
             return;
         }
 
@@ -437,10 +442,60 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
         .then(function successCallback(response) {
 
         }, function errorCallback(response) {
-            prompt.show(prompt.type.alert, response.statusText);
+            prompt.show(prompt.type.alert, response.statusText, $scope);
         });
     }
 }]);
-app.controller('LoginController', ['$scope', function ($scope) {
-    $scope.test = 'hello';
+app.controller('LoginController', ['$scope', 'loading', function ($scope, loading) {
+    $scope.email = '';
+    $scope.password = '';
+    $scope.login = function () {
+        loading.set(true, $scope);
+    }
 }]);
+app.factory('loading', ['$compile', '$rootScope', function loadingFactory($compile, $rootScope) {
+    return {
+        //This method is responsible for showing or hiding the loading icon
+        set: function (show, scope) {
+            var loading;
+
+            //Create the loading directive
+            if (show) {
+                loading = $compile('<loading>')(scope);
+                angular.element(document.body).append(loading);
+            } else {
+                scope.$$childTail.close();
+            }
+        }
+    }
+}]);
+app.directive('loading', function () {
+    return {
+        restrict: 'E',
+        scope: true,
+        templateUrl: 'templates/loading.html',
+        link: function (scope, element, attributes) {
+            //Disable controls if any
+            setDisabled(true);
+
+            //Remove this directeve
+            scope.close = function() {
+                scope.$destroy();
+                element.remove();
+                setDisabled(false);
+            }
+
+            //Disables/Enables controls on a form
+            function setDisabled(isDisabled) {
+                if (scope.form) {
+                    if (isDisabled) {
+                        document.activeElement.blur();
+                        scope.form.$$element.find('input').attr('tabindex', '-1');
+                        scope.form.$$element.find('button').attr('tabindex', '-1');
+                        scope.form.$$element.find('a').attr('tabindex', '-1');
+                    }
+                }
+            }
+        }
+    }
+});

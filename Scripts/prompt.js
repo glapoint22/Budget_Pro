@@ -7,15 +7,12 @@ app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile
             input: 3
         },
         //This method is responsible for showing the prompt
-        show: function (promptType, message, acceptCallback, declineCallback) {
-            var prompt, scope, title, accept, decline;
-
-            //Get the scope the prompt is being called in
-            scope = $rootScope.$$childTail;
+        show: function (promptType, message, scope, acceptCallback, declineCallback) {
+            var prompt, title, accept, decline;
 
             //Create the prompt directive
             prompt = $compile('<prompt>')(scope);
-            angular.element(document.getElementById("ctrl")).append(prompt);
+            angular.element(document.body).append(prompt);
 
             //Set the prompt type
             switch(promptType) {
@@ -79,11 +76,19 @@ app.directive('prompt', function () {
             //Disables/Enables controls on a form
             function setDisabled(isDisabled) {
                 if (scope.form) {
-                    angular.forEach(scope.form.$$controls, function (control) {
-                        control.$$attr.$set('disabled', isDisabled);
-                    });
+                    if (isDisabled) {
+                        document.activeElement.blur();
+                        scope.form.$$element.find('input').attr('tabindex', '-1');
+                        scope.form.$$element.find('button').attr('tabindex', '-1');
+                        scope.form.$$element.find('a').attr('tabindex', '-1');
+                        scope.form.$$element.find('select').attr('tabindex', '-1');
+                    } else {
+                        scope.form.$$element.find('input').removeAttr('tabindex');
+                        scope.form.$$element.find('button').removeAttr('tabindex');
+                        scope.form.$$element.find('a').removeAttr('tabindex');
+                        scope.form.$$element.find('select').removeAttr('tabindex');
+                    }
                 }
-                
             }
         }
     }

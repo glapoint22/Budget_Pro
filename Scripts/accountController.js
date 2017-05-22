@@ -69,7 +69,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
             //If there is only one remaining static type and you're trying to remove it, throw an error
             if (staticTypeCount === 1 && items[index].type === 1) {
-                prompt.show(prompt.type.alert, 'You need at least one static envelope.');
+                prompt.show(prompt.type.alert, 'You need at least one static envelope.', $scope);
                 return;
             }
         }
@@ -77,13 +77,13 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
         //Make sure there is at least one item
         if (items.length === 1) {
-            prompt.show(prompt.type.alert, 'You need at least one ' + name + '.');
+            prompt.show(prompt.type.alert, 'You need at least one ' + name + '.', $scope);
             return;
         }
 
         
         var temp = [];
-        prompt.show(prompt.type.confirm, 'Are you sure you want to remove this ' + name + '?', function () {
+        prompt.show(prompt.type.confirm, 'Are you sure you want to remove this ' + name + '?', $scope, function () {
             //Remove the item based on the index passed in
             angular.copy(items, temp);
             temp.splice(index, 1);
@@ -115,7 +115,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
 
         if (!formValid) {
             //Show a message stating to fix errors
-            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before you can move on.');
+            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before you can move on.', $scope);
             return;
         }
         $scope.screenIndex = index;
@@ -137,7 +137,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
             });
 
             //Show a message stating to fix errors
-            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before this form can be submitted.');
+            prompt.show(prompt.type.alert, 'Oops! Some fields need your attention. All errors must be corrected before this form can be submitted.', $scope);
             return;
         }
 
@@ -153,7 +153,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
         .then(function successCallback(response) {
 
         }, function errorCallback(response) {
-            prompt.show(prompt.type.alert, response.statusText);
+            prompt.show(prompt.type.alert, response.statusText, $scope);
         });
     }
 }]);
