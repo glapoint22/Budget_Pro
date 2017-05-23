@@ -2,6 +2,7 @@ var app = angular.module('budgetPro', ['ui.router'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/login');
     $locationProvider.html5Mode(true);
+
     $stateProvider
         .state('login', {
             url: '/login',
@@ -12,6 +13,11 @@ var app = angular.module('budgetPro', ['ui.router'])
             url: '/account',
             templateUrl: 'templates/account.html',
             controller: 'AccountController'
+        })
+        .state('budget', {
+            url: '/budget',
+            templateUrl: 'templates/budget.html',
+            controller: 'BudgetController'
         });
 }]);
                 

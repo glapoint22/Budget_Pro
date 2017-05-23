@@ -2,6 +2,7 @@ var app = angular.module('budgetPro', ['ui.router'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/login');
     $locationProvider.html5Mode(true);
+
     $stateProvider
         .state('login', {
             url: '/login',
@@ -12,6 +13,11 @@ var app = angular.module('budgetPro', ['ui.router'])
             url: '/account',
             templateUrl: 'templates/account.html',
             controller: 'AccountController'
+        })
+        .state('budget', {
+            url: '/budget',
+            templateUrl: 'templates/budget.html',
+            controller: 'BudgetController'
         });
 }]);
                 
@@ -104,7 +110,7 @@ app.factory('period', function periodFactory() {
         }
     }
 });
-app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile, $rootScope) {
+app.factory('prompt', ['$compile', function promptFactory($compile) {
     return {
         //Enumeration for the different prompt types
         type: {
@@ -179,21 +185,12 @@ app.directive('prompt', function () {
                 setDisabled(false);
             }
 
-            //Disables/Enables controls on a form
+            //Disable/Enable
             function setDisabled(isDisabled) {
-                if (scope.form) {
-                    if (isDisabled) {
-                        document.activeElement.blur();
-                        scope.form.$$element.find('input').attr('tabindex', '-1');
-                        scope.form.$$element.find('button').attr('tabindex', '-1');
-                        scope.form.$$element.find('a').attr('tabindex', '-1');
-                        scope.form.$$element.find('select').attr('tabindex', '-1');
-                    } else {
-                        scope.form.$$element.find('input').removeAttr('tabindex');
-                        scope.form.$$element.find('button').removeAttr('tabindex');
-                        scope.form.$$element.find('a').removeAttr('tabindex');
-                        scope.form.$$element.find('select').removeAttr('tabindex');
-                    }
+                if (isDisabled) {
+                    angular.element(document).find('input, button[type="button"], button[type="submit"], select').attr('disabled', 'disabled')
+                } else {
+                    angular.element(document).find('input, button[type="button"], button[type="submit"], select').removeAttr('disabled');
                 }
             }
         }
@@ -294,7 +291,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
         lastName: '',
         email: '',
         password: ''
-    }
+    };
 
     //Employers
     $scope.employers = [new budgetItem('', 0)];
@@ -343,7 +340,6 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
     $scope.addItem = function (item) {
         item.push(new budgetItem('', 0));
     };
-
     //Remove an item from the set
     $scope.removeItem = function (index, items, name) {
         var i;
@@ -397,7 +393,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
                         if (!control.$valid) formValid = false;
                         control.$setTouched();
                     }
-                    
+
                 }
             });
         }
@@ -408,7 +404,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
             return;
         }
         $scope.screenIndex = index;
-    }
+    };
 
 
     //Submit the form
@@ -446,25 +442,45 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
         });
     }
 }]);
-app.controller('LoginController', ['$scope', 'loading', function ($scope, loading) {
+app.controller('LoginController', ['$scope', 'loading', '$state', 'prompt', function ($scope, loading, $state, prompt) {
     $scope.email = '';
     $scope.password = '';
+
+    //Go to the budget page
     $scope.login = function () {
-        loading.set(true, $scope);
+        if (!$scope.form.$valid) {
+            //Show each empty control has an error
+            angular.forEach($scope.form.$$controls, function (control) {
+                control.$setTouched();
+            });
+
+            //Display error prompt
+            prompt.show(prompt.type.alert, 'A valid email and password is required to log into your account.', $scope);
+            return;
+        }
+
+        //Load the budget page
+        loading.set(true);
+        $state.go('budget');
+    }
+
+    //Go to the create account page
+    $scope.createAccount = function () {
+        $state.go('account')
     }
 }]);
 app.factory('loading', ['$compile', '$rootScope', function loadingFactory($compile, $rootScope) {
     return {
         //This method is responsible for showing or hiding the loading icon
-        set: function (show, scope) {
+        set: function (show) {
             var loading;
 
             //Create the loading directive
             if (show) {
-                loading = $compile('<loading>')(scope);
+                loading = $compile('<loading>')($rootScope);
                 angular.element(document.body).append(loading);
             } else {
-                scope.$$childTail.close();
+                angular.element(document).find('loading').remove();
             }
         }
     }
@@ -472,30 +488,13 @@ app.factory('loading', ['$compile', '$rootScope', function loadingFactory($compi
 app.directive('loading', function () {
     return {
         restrict: 'E',
-        scope: true,
         templateUrl: 'templates/loading.html',
-        link: function (scope, element, attributes) {
+        link: function () {
             //Disable controls if any
-            setDisabled(true);
-
-            //Remove this directeve
-            scope.close = function() {
-                scope.$destroy();
-                element.remove();
-                setDisabled(false);
-            }
-
-            //Disables/Enables controls on a form
-            function setDisabled(isDisabled) {
-                if (scope.form) {
-                    if (isDisabled) {
-                        document.activeElement.blur();
-                        scope.form.$$element.find('input').attr('tabindex', '-1');
-                        scope.form.$$element.find('button').attr('tabindex', '-1');
-                        scope.form.$$element.find('a').attr('tabindex', '-1');
-                    }
-                }
-            }
+            angular.element(document).find('input, button[type="button"], button[type="submit"], select').attr('disabled', 'disabled');
         }
     }
 });
+app.controller('BudgetController', ['$scope', 'loading', function ($scope, loading) {
+    loading.set(false);
+}]);

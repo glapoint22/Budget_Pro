@@ -1,14 +1,10 @@
-<div id="ctrl" class="login" ng-controller="LoginController">
+<div class="login" ng-controller="LoginController">
     <form novalidate name="form">
         <h1>Login</h1>
         <hr />
-        <input name="email" type="email" class="control" placeholder="Email" autofocus="autofocus" ng-model="email" required/>
-        <div ng-show="form.email.$error.required && form.email.$touched" class="error-text">*Email is required</div>
+        <input name="email" type="text" class="control" placeholder="Email" autofocus="autofocus" ng-model="email" required/>
         <input name="password" type="password" class="control" placeholder="Password" ng-model="password" required/>
-        <div ng-show="form.password.$error.required && form.password.$touched" class="error-text">*Password is required</div>
         <button type="submit" ng-click="login()">Login</button>
-        <div align="center">
-            <a ui-sref="account">Create an account</a>
-        </div>
+        <div class="link" align="center" ng-click="createAccount()">Create an account</div>
     </form>
 </div>

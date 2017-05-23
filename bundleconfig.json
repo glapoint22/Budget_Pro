@@ -2,7 +2,7 @@
   {
     "outputFileName": "output/budgetPro.js",
     "inputFiles": [
-      "scripts/budgetPro.js",
+      "scripts/main.js",
       "scripts/budgetItem.js",
       "scripts/period.js",
       "scripts/prompt.js",
@@ -10,7 +10,8 @@
       "scripts/itemSets.js",
       "scripts/accountController.js",
       "scripts/loginController.js",
-      "scripts/loading.js"
+      "scripts/loading.js",
+      "scripts/budgetController.js"
     ]
   }
 ]

@@ -1,4 +1,4 @@
-app.factory('prompt', ['$compile', '$rootScope', function promptFactory($compile, $rootScope) {
+app.factory('prompt', ['$compile', function promptFactory($compile) {
     return {
         //Enumeration for the different prompt types
         type: {
@@ -73,21 +73,12 @@ app.directive('prompt', function () {
                 setDisabled(false);
             }
 
-            //Disables/Enables controls on a form
+            //Disable/Enable
             function setDisabled(isDisabled) {
-                if (scope.form) {
-                    if (isDisabled) {
-                        document.activeElement.blur();
-                        scope.form.$$element.find('input').attr('tabindex', '-1');
-                        scope.form.$$element.find('button').attr('tabindex', '-1');
-                        scope.form.$$element.find('a').attr('tabindex', '-1');
-                        scope.form.$$element.find('select').attr('tabindex', '-1');
-                    } else {
-                        scope.form.$$element.find('input').removeAttr('tabindex');
-                        scope.form.$$element.find('button').removeAttr('tabindex');
-                        scope.form.$$element.find('a').removeAttr('tabindex');
-                        scope.form.$$element.find('select').removeAttr('tabindex');
-                    }
+                if (isDisabled) {
+                    angular.element(document).find('input, button[type="button"], button[type="submit"], select').attr('disabled', 'disabled')
+                } else {
+                    angular.element(document).find('input, button[type="button"], button[type="submit"], select').removeAttr('disabled');
                 }
             }
         }

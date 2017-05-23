@@ -7,7 +7,6 @@
 body {
     background: $budget-background;
 }
-
 form {
     margin: auto;
     position: relative;
@@ -20,8 +19,6 @@ form {
     background: $budget-color1;
     font-weight: bold;
 }
-
-
 .control{
     background-color: #151515;
     color: $budget-font-color2;
@@ -74,4 +71,12 @@ button:hover{
 }
 .error-text{
     color: red;
+}
+.link{
+    text-decoration: underline;
+}
+.link:hover{
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
 }

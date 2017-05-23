@@ -5,7 +5,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
         lastName: '',
         email: '',
         password: ''
-    }
+    };
 
     //Employers
     $scope.employers = [new budgetItem('', 0)];
@@ -54,7 +54,6 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
     $scope.addItem = function (item) {
         item.push(new budgetItem('', 0));
     };
-
     //Remove an item from the set
     $scope.removeItem = function (index, items, name) {
         var i;
@@ -108,7 +107,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
                         if (!control.$valid) formValid = false;
                         control.$setTouched();
                     }
-                    
+
                 }
             });
         }
@@ -119,7 +118,7 @@ app.controller('AccountController', ['$scope', '$http', 'prompt', 'period', 'bud
             return;
         }
         $scope.screenIndex = index;
-    }
+    };
 
 
     //Submit the form

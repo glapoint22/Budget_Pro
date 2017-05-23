@@ -1,4 +1,4 @@
-    <div class="account" id="ctrl" ng-controller="AccountController">
+    <div class="account" ng-controller="AccountController">
         <form novalidate name="form">
             <h2>Create an account</h2>
             <hr/>
@@ -51,7 +51,7 @@
                 <item-sets items="employers" item-text="employerText" form="form"></item-sets>
                 
                
-                <button ng-model="next" type="button" class="float-right" ng-click="setScreen(1)">Next</button>
+                <button type="submit" class="float-right" ng-click="setScreen(1)">Next</button>
             </div>
 
             <!--2nd screen-->
@@ -63,8 +63,8 @@
                 <item-sets items="envelopes" item-text="envelopeText" form="form"></item-sets>
                 
                 <!--Previous and submit buttons-->
-                <button ng-model="previous" type="button" class="float-left" ng-click="setScreen(0)">Previous</button>
-                <button ng-model="submit" type="submit" class="float-right" ng-click="submit()">Submit</button>
+                <button type="button" class="float-left" ng-click="setScreen(0)">Previous</button>
+                <button type="submit" class="float-right" ng-click="submit()">Submit</button>
             </div>
         </form>
     </div>

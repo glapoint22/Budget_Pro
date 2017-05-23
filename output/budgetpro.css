@@ -148,17 +148,11 @@
 .item-set input[type="date"] {
   width: initial; }
 
-.item-set .add-item {
+.item-set .link {
   text-align: center;
-  text-decoration: underline;
   font-style: italic;
-  margin-top: 20px;
-  margin-bottom: 20px; }
-
-.item-set .add-item-text:hover {
-  cursor: pointer;
-  color: white;
-  text-decoration: underline; }
+  margin-top: 40px;
+  margin-bottom: 40px; }
 
 .item-set .remove-text {
   position: relative;
@@ -203,7 +197,7 @@
 .login form {
   top: 250px;
   width: 300px;
-  height: 350px; }
+  height: 300px; }
 
 .login h1 {
   text-align: center; }
@@ -231,6 +225,9 @@
 
 .login .error-text {
   margin-left: 15px; }
+
+.login .link {
+  margin-bottom: 30px; }
 
 body {
   background: #191919; }
@@ -298,4 +295,12 @@ button:hover {
 
 .error-text {
   color: red; }
+
+.link {
+  text-decoration: underline; }
+
+.link:hover {
+  cursor: pointer;
+  color: white;
+  text-decoration: underline; }
 
