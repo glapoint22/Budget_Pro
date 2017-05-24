@@ -15,7 +15,7 @@
   float: right; }
 
 .account hr {
-  border: 1px solid #999;
+  border: 1px solid #6c6c6c;
   width: 75%; }
 
 .account .numbered-circle {
@@ -44,7 +44,7 @@
   right: -16px;
   top: 5px;
   border: 8px solid;
-  border-color: #999 transparent transparent #999; }
+  border-color: #6c6c6c transparent transparent #6c6c6c; }
 
 .account .message-arrow-right:after {
   content: ' ';
@@ -55,7 +55,7 @@
   right: -14px;
   top: 6px;
   border: 7px solid;
-  border-color: #14161d transparent transparent #14161d; }
+  border-color: #383737 transparent transparent #383737; }
 
 .account .message-arrow-left:before {
   content: ' ';
@@ -66,7 +66,7 @@
   right: auto;
   top: 5px;
   border: 8px solid;
-  border-color: #999 #999 transparent transparent; }
+  border-color: #6c6c6c #6c6c6c transparent transparent; }
 
 .account .message-arrow-left:after {
   content: ' ';
@@ -77,7 +77,7 @@
   right: auto;
   top: 6px;
   border: 7px solid;
-  border-color: #14161d #14161d transparent transparent; }
+  border-color: #383737 #383737 transparent transparent; }
 
 .account .bubble {
   position: absolute;
@@ -86,8 +86,8 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid #999;
-  background: #14161d; }
+  border: 1px solid #6c6c6c;
+  background: #383737; }
 
 .account .message-bubble {
   padding: 5px 10px 5px 10px;
@@ -112,11 +112,11 @@
   width: auto;
   height: auto;
   max-width: 300px;
-  background-color: #1d212a;
-  border: 1px solid #999;
+  background-color: #585757;
+  border: 1px solid #6c6c6c;
   border-radius: 5px; }
   .prompt .prompt-header {
-    background: #14161d;
+    background: #383737;
     width: auto;
     height: 15px;
     border: 1px solid #5a5a5a;
@@ -172,13 +172,13 @@
   border: 1px solid #5a5a5a;
   overflow: auto;
   margin-top: 5px;
-  background: #14161d; }
+  background: #383737; }
 
 .item-set fieldset {
   margin: 5px 10px 5px 10px;
   border: 1px dashed white;
   padding-right: 5px;
-  background: #1d212a; }
+  background: #585757; }
 
 .item-set .radio-group {
   text-align: center;
@@ -208,7 +208,7 @@
   margin: 20px 20px 0px 20px; }
 
 .login hr {
-  border: 1px solid #999;
+  border: 1px solid #6c6c6c;
   width: 90%;
   margin-bottom: 5px; }
 
@@ -229,6 +229,64 @@
 .login .link {
   margin-bottom: 30px; }
 
+.budget {
+  display: flex;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #b7b7b7; }
+  .budget .main-container {
+    width: 1577px;
+    height: 898px;
+    margin: auto;
+    display: flex; }
+    .budget .main-container .left-panel {
+      background-color: #383737;
+      flex: 1;
+      border: 1px solid #6c6c6c;
+      display: flex;
+      flex-direction: column; }
+      .budget .main-container .left-panel .title-bar {
+        background-color: #585757;
+        position: relative;
+        height: 20px;
+        top: 0;
+        margin: 2px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 14px; }
+      .budget .main-container .left-panel .account-envelopes-container {
+        border: 1px solid #6c6c6c;
+        margin: 0 5px 5px 5px;
+        flex: 1;
+        display: flex;
+        flex-direction: column; }
+        .budget .main-container .left-panel .account-envelopes-container .account-section {
+          height: 28px;
+          position: relative;
+          top: 0;
+          border-bottom: 1px solid #6c6c6c; }
+        .budget .main-container .left-panel .account-envelopes-container .envelopes-container {
+          border-top: 1px solid #6c6c6c;
+          flex: 1;
+          overflow-y: auto; }
+          .budget .main-container .left-panel .account-envelopes-container .envelopes-container .envelopes-row {
+            position: relative;
+            height: 22px;
+            top: 0;
+            line-height: 22px; }
+    .budget .main-container .content {
+      background-color: green;
+      flex: 4.7633928571428571428571428571428;
+      visibility: hidden; }
+    .budget .main-container .right-panel {
+      background-color: purple;
+      flex: 1.2857142857142857142857142857143;
+      visibility: hidden; }
+
 body {
   background: #191919; }
 
@@ -239,9 +297,9 @@ form {
   line-height: 24px;
   border-radius: 5px;
   padding: 5px 10px 5px 10px;
-  border: 1px solid #999;
+  border: 1px solid #6c6c6c;
   color: #b7b7b7;
-  background: #1d212a;
+  background: #585757;
   font-weight: bold; }
 
 .control {

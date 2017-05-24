@@ -1,6 +1,6 @@
 var app = angular.module('budgetPro', ['ui.router'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/budget');
     $locationProvider.html5Mode(true);
 
     $stateProvider
