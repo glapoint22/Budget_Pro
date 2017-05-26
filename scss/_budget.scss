@@ -8,62 +8,78 @@
     width: 100%; 
     height: 100%;
     font-family: Arial, Helvetica, sans-serif;
-    color: $budget-font-color1;
+    color: $budget-font-color2;
     .main-container{
+        background-color: $budget-color2;
         width: 1577px;
         height: 898px;
         margin: auto;
         display: flex;
-        .left-panel{
-            background-color: $budget-color2;
+        .title-bar{
+            background-color: $budget-color1;
+            position: relative;
+            height: 20px;
+            top: 0;
+            margin: 2px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .panel-content{
+            border: 1px solid $budget-border-color1;
+            margin: 0 5px 5px 5px; 
             flex: 1;
+            display: flex;
+            flex-direction:column;
+        }
+        .sub-section{
+            height: 30px;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid $budget-border-color1;
+            line-height: 30px;
+        }
+        .envelopes-container{
+            border-top: 1px solid $budget-border-color1;
+            flex: 1;
+            overflow-y: auto;
+            .envelopes-row{
+                height: 22px;
+                line-height: 22px;
+                color: $budget-font-color2;
+                .fa-envelope{
+                    margin-left: 8px;
+                }
+            }
+            .envelopes-row:hover{
+                background-color: rgba(255, 255, 255, 0.2);
+                cursor: pointer;
+            }
+        }
+        .title{
+            margin-left: 5px;
+            font-size: 12px;
+        }
+        .amount{
+            float: right; 
+            padding-right: 6px; 
+            font-size: 12px; 
+            color: #00ff00;
+        }
+        .left-panel, .center-panel, .right-panel{
             border: 1px solid $budget-border-color1;
             display: flex;
             flex-direction:column;
-            .title-bar{
-                background-color: $budget-color1;
-                position: relative;
-                height: 20px;
-                top: 0;
-                margin: 2px;
-                text-align: center;
-                line-height: 20px;
-                font-size: 14px;
-            }
-            .account-envelopes-container{
-                border: 1px solid $budget-border-color1;
-                margin: 0 5px 5px 5px; 
-                flex: 1;
-                display: flex;
-                flex-direction:column;
-                .account-section{
-                    height: 28px;
-                    position: relative;
-                    top: 0;
-                    border-bottom: 1px solid $budget-border-color1;
-                }
-                .envelopes-container{
-                    border-top: 1px solid $budget-border-color1;
-                    flex: 1;
-                    overflow-y: auto;
-                    .envelopes-row{
-                        position: relative;
-                        height: 22px;
-                        top: 0;
-                        line-height: 22px;
-                    }
-                }
-            }
         }
-        .content{
-            background-color: green;
-            flex: 4.7633928571428571428571428571428;
-            visibility: hidden;
+        .left-panel{
+            flex: 1;
+        }
+        .center-panel{
+            flex: 4.76;
         }
         .right-panel{
-            background-color: purple;
-            flex: 1.2857142857142857142857142857143;
-            visibility: hidden;
+            flex: 1.29;
         }
     }
 }
